@@ -1,6 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+//App component
+function App() {
+    return(
+        <div>
+            <Clock/>
+            <Clock/>
+            <Clock/>
+        </div>
+    )
+}
+
+//Clock component
 class Clock extends React.Component{
     constructor(props) {
         super(props);
@@ -38,6 +50,6 @@ class Clock extends React.Component{
 
 //=======================
 ReactDOM.render(
-    <Clock />,
+    <App />,
     document.getElementById('root')
 );
