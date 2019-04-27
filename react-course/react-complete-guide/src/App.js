@@ -34,6 +34,7 @@ const app = props => {
 
     //The same code WITHOUT using JSX:
     //return React.createElement('div', { className: 'App' }, React.createElement('h1', null, 'Hi, Im a React app!'))
+    //hola
   );
 }
 
