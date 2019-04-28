@@ -12,10 +12,19 @@ const app = props => {
   });
 
   const switchNameHandler = (newName) => {
-
     setPersonsState({ persons: [
         { name: newName, age: 23 },
         { name: "Octavio", age: 22 },
+        { name: "Julián", age: 25 }
+      ]
+    });
+  }
+
+  const changedNameHandler = (event) => {
+    setPersonsState({ persons: [
+        //"target" is the input element, which has a property called "value"
+        { name: "Octavio", age: 23 },
+        { name: event.target.value, age: 22 },
         { name: "Julián", age: 25 }
       ]
     });
@@ -35,6 +44,7 @@ const app = props => {
       <Person
         name={personsState.persons[1].name}
         age={personsState.persons[1].age}
+        changed={changedNameHandler}
         // with bind
         click={switchNameHandler.bind(this, 'Another example!')} >
         My hobbies: code, read, run, write.
