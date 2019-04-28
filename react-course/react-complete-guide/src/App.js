@@ -30,12 +30,25 @@ const app = props => {
     });
   }
 
+  const style = {
+    backgroundColor: 'white',
+    font: 'inherit',
+    border: '1x solid blue',
+    padding: '8px',
+    cursor: 'pointer',
+    margin: '10px'
+  };
+
   return (
     //JSX syntax:
     <div className="App">
       <h1>Hi, I'm a React app!</h1>
       {/* with arrow functions */}
-      <button onClick={() => switchNameHandler('Example!')}>Switch names!</button>
+      <button
+        style={style}
+        onClick={() => switchNameHandler('Example!')}>
+        Switch names!
+      </button>
       {/* only props */}
       <Person
         name={personsState.persons[0].name}
