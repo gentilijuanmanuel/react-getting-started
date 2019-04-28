@@ -11,9 +11,10 @@ const app = props => {
     ]
   });
 
-  const switchNameHandler = () => {
+  const switchNameHandler = (newName) => {
+
     setPersonsState({ persons: [
-        { name: "Agustin", age: 23 },
+        { name: newName, age: 23 },
         { name: "Octavio", age: 22 },
         { name: "Julián", age: 25 }
       ]
@@ -24,12 +25,25 @@ const app = props => {
     //JSX syntax:
     <div className="App">
       <h1>Hi, I'm a React app!</h1>
-      <button onClick={switchNameHandler}>Switch names!</button>
+      {/* with arrow functions */}
+      <button onClick={() => switchNameHandler('Example!')}>Switch names!</button>
       {/* only props */}
-      <Person name={personsState.persons[0].name} age={personsState.persons[0].age} />
+      <Person
+        name={personsState.persons[0].name}
+        age={personsState.persons[0].age} />
       {/* props and props.children */}
-      <Person name={personsState.persons[1].name} age={personsState.persons[1].age}>My hobbies: code, read, run, write.</Person>
-      <Person name={personsState.persons[2].name} age={personsState.persons[2].age}>My hobbies: code, read, run, write.</Person>
+      <Person
+        name={personsState.persons[1].name}
+        age={personsState.persons[1].age}
+        // with bind
+        click={switchNameHandler.bind(this, 'Another example!')} >
+        My hobbies: code, read, run, write.
+      </Person>
+      <Person
+        name={personsState.persons[2].name}
+        age={personsState.persons[2].age}>
+        My hobbies: code, read, run, write.
+      </Person>
     </div>
 
     //The same code WITHOUT using JSX:
