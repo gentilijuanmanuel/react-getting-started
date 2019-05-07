@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import UserInput from '../src/UserInput/UserInput.js';
 import UserOutput from '../src/UserOutput/UserOutput.js';
+import Clock from '../src/Clock/Clock.js';
 import './App.css';
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
 
   return(
     <div className="App">
+      <Clock />
       <UserOutput
         username={ userOutputState.username } />
       <UserInput
