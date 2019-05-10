@@ -8,25 +8,22 @@ const app = props => {
       { name: "Juanma", age: 23 },
       { name: "Octavio", age: 22 },
       { name: "Julián", age: 25 }
-    ]
+    ],
+    showPersons: false
   });
 
-  const switchNameHandler = (newName) => {
-    setPersonsState({ persons: [
-        { name: newName, age: 23 },
-        { name: "Octavio", age: 22 },
-        { name: "Julián", age: 25 }
-      ]
+  const togglePersonsHandler = () => {
+    setPersonsState({
+      persons: personsState.persons,
+      showPersons : !personsState.showPersons
     });
   }
 
-  const changedNameHandler = (event) => {
-    setPersonsState({ persons: [
-        //"target" is the input element, which has a property called "value"
-        { name: "Octavio", age: 23 },
-        { name: event.target.value, age: 22 },
-        { name: "Julián", age: 25 }
-      ]
+  const deletePersonHandler = (personIndex) => {
+    personsState.persons.splice(personIndex, 1);
+    setPersonsState({
+      persons: personsState.persons,
+      showPersons: personsState.showPersons
     });
   }
 
@@ -39,6 +36,21 @@ const app = props => {
     margin: '10px'
   };
 
+  let persons = null;  
+
+  if(personsState.showPersons) {
+    persons =
+      personsState.persons.map((person, index) => {
+        return(
+          <Person
+            click={() => deletePersonHandler(index)}
+            name={person.name}
+            age={person.age}/>
+        );
+      }
+    );
+  }
+
   return (
     //JSX syntax:
     <div className="App">
@@ -46,27 +58,10 @@ const app = props => {
       {/* with arrow functions */}
       <button
         style={style}
-        onClick={() => switchNameHandler('Example!')}>
-        Switch names!
+        onClick={togglePersonsHandler}>
+        Toggle persons
       </button>
-      {/* only props */}
-      <Person
-        name={personsState.persons[0].name}
-        age={personsState.persons[0].age} />
-      {/* props and props.children */}
-      <Person
-        name={personsState.persons[1].name}
-        age={personsState.persons[1].age}
-        changed={changedNameHandler}
-        // with bind
-        click={switchNameHandler.bind(this, 'Another example!')} >
-        My hobbies: code, read, run, write.
-      </Person>
-      <Person
-        name={personsState.persons[2].name}
-        age={personsState.persons[2].age}>
-        My hobbies: code, read, run, write.
-      </Person>
+      {persons}
     </div>
 
     //The same code WITHOUT using JSX:
