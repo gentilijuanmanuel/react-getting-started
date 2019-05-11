@@ -1,24 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import LengthValidation from './LengthValidation/LengthValidation';
+import Char from './Char/Char';
 
-function App() {
+const App = () => {
+  const [ appState, setAppState ] = useState({
+    text: '',
+    textLength: ''
+  });
+
+  const calculateTextLengthHandler = (event) => {
+    setAppState({
+      text: event.target.value,
+      textLength: event.target.value.length
+    });
+  }
+
+  const deleteCharHandler = (charIndex) => {
+    const currentChars = [...appState.text.split('')];
+    currentChars.splice(charIndex, 1);
+    
+    setAppState({
+      text: currentChars.join(''),
+      textLength: currentChars.length
+    });
+  }
+
+  let chars = null;
+
+  if(appState.text != null) {
+    const charArray = appState.text.split('');
+
+    chars = charArray.map((char, index) => {
+      return(
+        <Char
+          char={char}
+          click={() => deleteCharHandler(index)} />
+      );
+    });
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Exercise section 4</h1>
+      <input type="text" value={appState.text} onChange={(event) => calculateTextLengthHandler(event)} />
+      <p>{appState.textLength}</p>
+      <LengthValidation
+        textLength={appState.textLength} />
+      {chars}
     </div>
   );
 }
