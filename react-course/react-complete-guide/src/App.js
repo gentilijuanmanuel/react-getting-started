@@ -5,9 +5,9 @@ import './App.css';
 const app = props => {
   const [ personsState, setPersonsState ] = useState({
     persons: [
-      { name: "Juanma", age: 23 },
-      { name: "Octavio", age: 22 },
-      { name: "Julián", age: 25 }
+      { id: 'dfeuf', name: "Juanma", age: 23 },
+      { id: 'fdfdf', name: "Octavio", age: 22 },
+      { id: '2e2e', name: "Julián", age: 25 }
     ],
     showPersons: false
   });
@@ -19,15 +19,33 @@ const app = props => {
     });
   }
 
-  const deletePersonHandler = (personIndex) => {
-    personsState.persons.splice(personIndex, 1);
+  const changeNameHandler = (event, personId) => {
+    const modifiedPersonIndex = personsState.persons.findIndex(person => { return person.id === personId; });
+
+    const persons = [
+      ...personsState.persons
+    ];
+
+    const modifiedPerson = persons[modifiedPersonIndex];
+    modifiedPerson.name = event.target.value;
+
     setPersonsState({
-      persons: personsState.persons,
+      persons: persons,
       showPersons: personsState.showPersons
     });
   }
 
-  const style = {
+  const deletePersonHandler = (personIndex) => {
+    const currentPersons = [...personsState.persons];
+    currentPersons.splice(personIndex, 1);
+    
+    setPersonsState({
+      persons: currentPersons,
+      showPersons: personsState.showPersons
+    });
+  }
+
+  const buttonStyle = {
     backgroundColor: 'white',
     font: 'inherit',
     border: '1x solid blue',
@@ -43,28 +61,28 @@ const app = props => {
       personsState.persons.map((person, index) => {
         return(
           <Person
+            key={person.id}
             click={() => deletePersonHandler(index)}
             name={person.name}
-            age={person.age}/>
+            age={person.age}
+            changed={(event) => changeNameHandler(event, person.id)} />
         );
       }
     );
   }
 
   return (
-    //JSX syntax:
     <div className="App">
       <h1>Hi, I'm a React app!</h1>
-      {/* with arrow functions */}
       <button
-        style={style}
+        style={buttonStyle}
         onClick={togglePersonsHandler}>
         Toggle persons
       </button>
       {persons}
     </div>
 
-    //The same code WITHOUT using JSX:
+    //We can create react apps without using JSX (behind the scenes, JSX is pure JavaScript)
     //return React.createElement('div', { className: 'App' }, React.createElement('h1', null, 'Hi, Im a React app!'))
   );
 }
