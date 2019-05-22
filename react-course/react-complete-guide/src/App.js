@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Person from '../src/Person/Person.js';
+import { StyleRoot } from 'radium';
 import './App.css';
 
 const app = props => {
@@ -83,16 +84,18 @@ const app = props => {
   }
 
   return (
-    <div className="app">
-      <h1>Hi, I'm a React app!</h1>
-      <p className={textClasses.join(' ')}>This is a stylized text</p>
-      <button
-        style={buttonStyle}
-        onClick={togglePersonsHandler}>
-        Toggle persons
-      </button>
-      {persons}
-    </div>
+    <StyleRoot>
+      <div className="app">
+        <h1>Hi, I'm a React app!</h1>
+        <p className={textClasses.join(' ')}>This is a stylized text</p>
+        <button
+          style={buttonStyle}
+          onClick={togglePersonsHandler}>
+          Toggle persons
+        </button>
+        {persons}
+      </div>
+    </StyleRoot>
 
     //We can create react apps without using JSX (behind the scenes, JSX is pure JavaScript)
     //return React.createElement('div', { className: 'App' }, React.createElement('h1', null, 'Hi, Im a React app!'))
