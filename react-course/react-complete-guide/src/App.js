@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Person from '../src/Person/Person.js'
+import Person from '../src/Person/Person.js';
 import './App.css';
 
 const app = props => {
@@ -46,7 +46,8 @@ const app = props => {
   }
 
   const buttonStyle = {
-    backgroundColor: 'white',
+    backgroundColor: 'green',
+    color: 'white',
     font: 'inherit',
     border: '1x solid blue',
     padding: '8px',
@@ -57,6 +58,8 @@ const app = props => {
   let persons = null;  
 
   if(personsState.showPersons) {
+    buttonStyle.backgroundColor = 'red';
+
     persons =
       personsState.persons.map((person, index) => {
         return(
@@ -71,9 +74,18 @@ const app = props => {
     );
   }
 
+  let textClasses = [];
+  if(personsState.persons.length <= 2) {
+    textClasses.push('red');
+  }
+  if(personsState.persons.length <= 1) {
+    textClasses.push('bold');
+  }
+
   return (
-    <div className="App">
+    <div className="app">
       <h1>Hi, I'm a React app!</h1>
+      <p className={textClasses.join(' ')}>This is a stylized text</p>
       <button
         style={buttonStyle}
         onClick={togglePersonsHandler}>
