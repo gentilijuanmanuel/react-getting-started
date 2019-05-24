@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Person from '../src/Person/Person.js';
-import './App.css';
+import classes from './App.css';
 
 const app = props => {
   const [ personsState, setPersonsState ] = useState({
@@ -76,14 +76,14 @@ const app = props => {
 
   let textClasses = [];
   if(personsState.persons.length <= 2) {
-    textClasses.push('red');
+    textClasses.push( classes.red );
   }
   if(personsState.persons.length <= 1) {
-    textClasses.push('bold');
+    textClasses.push( classes.bold );
   }
 
   return (
-      <div className="app">
+      <div className={classes.app}>
         <h1>Hi, I'm a React app!</h1>
         <p className={textClasses.join(' ')}>This is a stylized text</p>
         <button

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../Person/Person.css';
+import personClasses from './Person.css';
 
 //Fuction component WITHOUT arrow functions
 // export default function Person() {
@@ -10,7 +10,7 @@ import '../Person/Person.css';
 const person = (props) => {
 
     return(
-         <div className="Person">
+         <div className={personClasses.Person}>
             <p onClick={ props.click } >Hello, I'm { props.name } and I'm { props.age } years old !</p>
             <p>{ props.children }</p>
             <input type="text" onChange={ props.changed } value={ props.name } />
