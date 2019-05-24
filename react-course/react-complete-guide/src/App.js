@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Person from '../src/Person/Person.js';
 import classes from './App.css';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary.js';
 
 const app = props => {
   const [ personsState, setPersonsState ] = useState({
@@ -52,12 +53,14 @@ const app = props => {
     persons =
       personsState.persons.map((person, index) => {
         return(
-          <Person
-            key={person.id}
-            click={() => deletePersonHandler(index)}
-            name={person.name}
-            age={person.age}
-            changed={(event) => changeNameHandler(event, person.id)} />
+          //ErrorBoundary is a high order component
+          <ErrorBoundary key={person.id}>
+            <Person
+              click={() => deletePersonHandler(index)}
+              name={person.name}
+              age={person.age}
+              changed={(event) => changeNameHandler(event, person.id)} />
+          </ErrorBoundary>
         );
       }
     );
@@ -74,16 +77,16 @@ const app = props => {
   }
 
   return (
-      <div className={classes.app}>
-        <h1>Hi, I'm a React app!</h1>
-        <p className={textClasses.join(' ')}>This is a stylized text</p>
-        <button
-          className={btnClass}
-          onClick={togglePersonsHandler}>
-          Toggle persons
-        </button>
-        {persons}
-      </div>
+        <div className={classes.app}>
+          <h1>Hi, I'm a React app!</h1>
+          <p className={textClasses.join(' ')}>This is a stylized text</p>
+          <button
+            className={btnClass}
+            onClick={togglePersonsHandler}>
+            Toggle persons
+          </button>
+          {persons}
+        </div>
 
     //We can create react apps without using JSX (behind the scenes, JSX is pure JavaScript)
     //return React.createElement('div', { className: 'App' }, React.createElement('h1', null, 'Hi, Im a React app!'))

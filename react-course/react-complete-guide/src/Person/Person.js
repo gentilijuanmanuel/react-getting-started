@@ -9,8 +9,15 @@ import personClasses from './Person.css';
 //Fuction component WITH arrow functions
 const person = (props) => {
 
+    //Simulation of an error in order to test ErrorBoundaries
+    // const random = Math.random();
+
+    // if(random > 0.7) {
+    //     throw new Error('Something went wrong :(');
+    // }
+
     return(
-         <div className={personClasses.Person}>
+         <div className={personClasses.person}>
             <p onClick={ props.click } >Hello, I'm { props.name } and I'm { props.age } years old !</p>
             <p>{ props.children }</p>
             <input type="text" onChange={ props.changed } value={ props.name } />
