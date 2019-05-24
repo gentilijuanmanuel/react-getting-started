@@ -45,21 +45,10 @@ const app = props => {
     });
   }
 
-  const buttonStyle = {
-    backgroundColor: 'green',
-    color: 'white',
-    font: 'inherit',
-    border: '1x solid blue',
-    padding: '8px',
-    cursor: 'pointer',
-    margin: '10px'
-  };
-
-  let persons = null;  
+  let persons = null;
+  let btnClass = null;
 
   if(personsState.showPersons) {
-    buttonStyle.backgroundColor = 'red';
-
     persons =
       personsState.persons.map((person, index) => {
         return(
@@ -72,6 +61,8 @@ const app = props => {
         );
       }
     );
+
+    btnClass = classes.red;
   }
 
   let textClasses = [];
@@ -87,7 +78,7 @@ const app = props => {
         <h1>Hi, I'm a React app!</h1>
         <p className={textClasses.join(' ')}>This is a stylized text</p>
         <button
-          style={buttonStyle}
+          className={btnClass}
           onClick={togglePersonsHandler}>
           Toggle persons
         </button>
