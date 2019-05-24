@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import Person from '../src/Person/Person.js';
+import Person from '../components/Persons/Person/Person.js';
 import classes from './App.css';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary.js';
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary.js';
+import Persons from '../components/Persons/Persons.js';
 
 const app = props => {
-  const [ personsState, setPersonsState ] = useState({
+  const [ appState, setAppState ] = useState({
     persons: [
       { id: 'dfeuf', name: "Juanma", age: 23 },
       { id: 'fdfdf', name: "Octavio", age: 22 },
@@ -14,44 +15,44 @@ const app = props => {
   });
 
   const togglePersonsHandler = () => {
-    setPersonsState({
-      persons: personsState.persons,
-      showPersons : !personsState.showPersons
+    setAppState({
+      persons: appState.persons,
+      showPersons : !appState.showPersons
     });
   }
 
   const changeNameHandler = (event, personId) => {
-    const modifiedPersonIndex = personsState.persons.findIndex(person => { return person.id === personId; });
+    const modifiedPersonIndex = appState.persons.findIndex(person => { return person.id === personId; });
 
     const persons = [
-      ...personsState.persons
+      ...appState.persons
     ];
 
     const modifiedPerson = persons[modifiedPersonIndex];
     modifiedPerson.name = event.target.value;
 
-    setPersonsState({
+    setAppState({
       persons: persons,
-      showPersons: personsState.showPersons
+      showPersons: appState.showPersons
     });
   }
 
   const deletePersonHandler = (personIndex) => {
-    const currentPersons = [...personsState.persons];
+    const currentPersons = [...appState.persons];
     currentPersons.splice(personIndex, 1);
     
-    setPersonsState({
+    setAppState({
       persons: currentPersons,
-      showPersons: personsState.showPersons
+      showPersons: appState.showPersons
     });
   }
 
   let persons = null;
   let btnClass = null;
 
-  if(personsState.showPersons) {
+  if(appState.showPersons) {
     persons =
-      personsState.persons.map((person, index) => {
+      appState.persons.map((person, index) => {
         return(
           //ErrorBoundary is a high order component
           <ErrorBoundary key={person.id}>
@@ -69,15 +70,16 @@ const app = props => {
   }
 
   let textClasses = [];
-  if(personsState.persons.length <= 2) {
+  if(appState.persons.length <= 2) {
     textClasses.push( classes.red );
   }
-  if(personsState.persons.length <= 1) {
+  if(appState.persons.length <= 1) {
     textClasses.push( classes.bold );
   }
 
   return (
         <div className={classes.app}>
+          <Persons />
           <h1>Hi, I'm a React app!</h1>
           <p className={textClasses.join(' ')}>This is a stylized text</p>
           <button
