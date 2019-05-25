@@ -9,19 +9,21 @@ class ErrorBoundary extends Component {
     componentDidCatch = (error, errorInfo) => {
         this.setState({
             hasError: true,
-            errorMessage: error
+            errorMessage: errorInfo
         });
     }
 
     render() {
-        if(this.state.hasError)
-            return <div>
-                        <h1>Oops! Something went wrong</h1>
-                        <p>this.state.errorMessage</p>
-                   </div>
-        else
-            return this.props.children;
-    };
+        if (this.state.hasError) {
+            return (
+              <div>
+                <h1>Oops! Something went wrong</h1>
+                <p>{this.state.errorMessage}</p>
+              </div>
+            );
+        } 
+        return this.props.children;
+    }
 }
 
 export default ErrorBoundary;
