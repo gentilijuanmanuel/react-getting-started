@@ -4,22 +4,43 @@ import Persons from '../components/Persons/Persons.js';
 
 const app = () => {
   const [ appState, setAppState ] = useState({
-    // persons: [
-    //   { id: 'dfeuf', name: "Juanma", age: 23 },
-    //   { id: 'fdfdf', name: "Octavio", age: 22 },
-    //   { id: '2e2e', name: "Julián", age: 25 }
-    // ],
+    persons: [
+      { id: 'dfeuf', name: "Juanma", age: 23 },
+      { id: 'fdfdf', name: "Octavio", age: 22 },
+      { id: '2e2e', name: "Julián", age: 25 }
+    ],
     showPersons: false
   });
 
-  const persons = [
-    { id: 'dfeuf', name: "Juanma", age: 23 },
-    { id: 'fdfdf', name: "Octavio", age: 22 },
-    { id: '2e2e', name: "Julián", age: 25 }
-  ];
+  const changeNameHandler = (event, personId) => {
+    const modifiedPersonIndex = appState.persons.findIndex(person => { return person.id === personId; });
+
+    const persons = [
+        ...appState.persons
+    ];
+
+    const modifiedPerson = persons[modifiedPersonIndex];
+    modifiedPerson.name = event.target.value;
+
+    setAppState({
+        persons: persons,
+        showPersons: appState.showPersons
+    });
+  }
+
+  const deletePersonHandler = (personIndex) => {
+    const currentPersons = [...appState.persons];
+    currentPersons.splice(personIndex, 1);
+    
+    setAppState({
+        persons: currentPersons,
+        showPersons: appState.showPersons
+    });
+  }
 
   const togglePersonsHandler = () => {
     setAppState({
+      persons: appState.persons,
       showPersons : !appState.showPersons
     });
   }
@@ -28,23 +49,29 @@ const app = () => {
   let btnClass = null;
 
   if(appState.showPersons) {
-    personsToDisplay = <Persons persons={persons} />;
+    personsToDisplay = 
+      <div>
+        <Persons
+          persons={appState.persons}
+          clicked={deletePersonHandler}
+          changed={changeNameHandler} />
+      </div>;
+
     btnClass = classes.red;
   }
 
-  // let textClasses = [];
-  // if(appState.persons.length <= 2) {
-  //   textClasses.push( classes.red );
-  // }
-  // if(appState.persons.length <= 1) {
-  //   textClasses.push( classes.bold );
-  // }
+  let textClasses = [];
+  if(appState.persons.length <= 2) {
+    textClasses.push( classes.red );
+  }
+  if(appState.persons.length <= 1) {
+    textClasses.push( classes.bold );
+  }
 
   return (
         <div className={classes.app}>
           <h1>Hi, I'm a React app!</h1>
-          {/* <p className={textClasses.join(' ')}>This is a stylized text</p> */}
-
+          <p className={textClasses.join(' ')}>This is a stylized text</p>
           <button
             className={btnClass}
             onClick={togglePersonsHandler}>
