@@ -1,13 +1,13 @@
 import React from 'react';
 import './Clock.css';
 
-//TODO: change this, it must be a functional component :) 
-class Clock extends React.Component{
+// TODO: change this, it must be a functional component :) 
+class Clock extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             date: new Date()
-        }
+        };
     }
 
     componentDidMount() {
@@ -28,12 +28,14 @@ class Clock extends React.Component{
     }
 
     render() {
-        return(
-            <h1 className="clock">{this.state.date.toLocaleTimeString(navigator.language, {
+        return (
+          <h1 className="clock">
+            {this.state.date.toLocaleTimeString(navigator.language, {
                 hour: '2-digit',
-                minute:'2-digit'
-              })}</h1>
-        )
+                minute: '2-digit'
+              })}
+          </h1>
+        );
     }
 }
 
