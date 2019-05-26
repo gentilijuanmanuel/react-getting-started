@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 class Toggle extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {isToggleOn: true};
+        this.state = { isToggleOn: true };
 
         this.handleClick = this.handleClick.bind(this);
     }
@@ -18,18 +18,18 @@ class Toggle extends React.Component {
 
     render() {
         return (
-            <div class="container">
-                <div class="row">
-                    <button type="button" class="btn btn-primary" onClick={this.handleClick}>
-                        {this.state.isToggleOn ? 'ON' : 'OFF'}
-                    </button>
-                </div>
+          <div className="container">
+            <div className="row">
+              <button type="button" className="btn btn-primary" onClick={this.handleClick}>
+                {this.state.isToggleOn ? 'ON' : 'OFF'}
+              </button>
             </div>
-        )
+          </div>
+        );
     }
 }
 
 ReactDOM.render(
-    <Toggle />,
+  <Toggle />,
     document.getElementById('root')
 );

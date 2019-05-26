@@ -3,7 +3,7 @@ import './UserInput.css';
 
 const userInput = props => (
   <input
-    className="input"
+    className="user-input"
     type="text"
     maxLength="15"
     onChange={props.usernameChanged}
