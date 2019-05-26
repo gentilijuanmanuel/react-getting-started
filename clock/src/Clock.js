@@ -1,5 +1,7 @@
 import React from 'react';
 
+// Function component version of 'Clock' available in:
+// react-course/exercise-section-3/src/Clock/Clock.js :)
 export class Clock extends React.Component {
   constructor(props) {
     super(props);
