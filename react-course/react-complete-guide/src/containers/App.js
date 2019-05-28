@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Cockpit from '../components/Cockpit/Cockpit';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 
@@ -46,7 +47,6 @@ const app = () => {
   };
 
   let personsToDisplay = null;
-  let btnClass = null;
 
   if (appState.showPersons) {
     personsToDisplay = (
@@ -57,30 +57,16 @@ const app = () => {
           changed={changeNameHandler}
         />
       </div>
-);
-
-    btnClass = classes.red;
-  }
-
-  const textClasses = [];
-  if (appState.persons.length <= 2) {
-    textClasses.push(classes.red);
-  }
-  if (appState.persons.length <= 1) {
-    textClasses.push(classes.bold);
+    );
   }
 
   return (
     <div className={classes.app}>
-      <h1>Hi, I&apos;m a React app!</h1>
-      <p className={textClasses.join(' ')}>This is a stylized text</p>
-      <button
-        type="button"
-        className={btnClass}
-        onClick={togglePersonsHandler}
-      >
-        Toggle persons
-      </button>
+      <Cockpit
+        personsLength={appState.persons.length}
+        clicked={togglePersonsHandler}
+        showPersons={appState.showPersons}
+      />
       {personsToDisplay}
     </div>
 
