@@ -1,17 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cockpitClasses from './Cockpit.css';
 
 const cockpit = (props) => {
+  const { personsLength, showPersons, clicked } = props;
+
   const textClasses = [];
-  if (props.personsLength <= 2) {
+  if (personsLength <= 2) {
     textClasses.push(cockpitClasses.red);
   }
-  if (props.personsLength <= 1) {
+  if (personsLength <= 1) {
     textClasses.push(cockpitClasses.bold);
   }
 
   let btnClass = null;
-  if (props.showPersons) {
+  if (showPersons) {
     btnClass = cockpitClasses.red;
   }
 
@@ -22,12 +25,18 @@ const cockpit = (props) => {
       <button
         type="button"
         className={btnClass}
-        onClick={props.clicked}
+        onClick={clicked}
       >
         Toggle persons
       </button>
     </div>
   );
+};
+
+cockpit.propTypes = {
+  personsLength: PropTypes.number.isRequired,
+  showPersons: PropTypes.bool.isRequired,
+  clicked: PropTypes.func.isRequired
 };
 
 export default cockpit;

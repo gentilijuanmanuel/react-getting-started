@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ErrorBoundary extends Component {
   state = {
@@ -14,16 +15,27 @@ class ErrorBoundary extends Component {
   }
 
   render() {
-    if (this.state.hasError) {
+    const { hasError, errorMessage } = this.state;
+    const { children } = this.props;
+
+    if (hasError) {
       return (
         <div>
           <h1>Oops! Something went wrong</h1>
-          <p>{this.state.errorMessage}</p>
+          <p>{errorMessage}</p>
         </div>
       );
     }
-    return this.props.children;
+    return children;
   }
 }
+
+ErrorBoundary.defaultProps = {
+  children: undefined
+};
+
+ErrorBoundary.propTypes = {
+  children: PropTypes.element
+};
 
 export default ErrorBoundary;
