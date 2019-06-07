@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cockpitClasses from './Cockpit.css';
 
 const cockpit = (props) => {
   const { personsLength, showPersons, clicked } = props;
+  
+  // It's like componentDidMount() and componentDidUpdate() in one effect
+  useEffect(() => {
+    setTimeout(() => {
+      alert('This is executed ONLY when Cockpit component initializes');
+    }, 1000);
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      alert('This is executed only when personsLength changes.');
+    }, 1000);
+  }, [personsLength]);
 
   const textClasses = [];
   if (personsLength <= 2) {
