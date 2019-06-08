@@ -10,7 +10,8 @@ const app = () => {
       { id: 'fdfdf', name: 'Octavio', age: 22 },
       { id: '2e2e', name: 'Julián', age: 25 }
     ],
-    showPersons: false
+    showPersons: false,
+    showCockpit: true
   });
 
   const changeNameHandler = (event, personId) => {
@@ -25,7 +26,8 @@ const app = () => {
 
     setAppState({
         persons,
-        showPersons: appState.showPersons
+        showPersons: appState.showPersons,
+        showCockpit: appState.showCockpit
     });
   };
 
@@ -35,14 +37,16 @@ const app = () => {
     
     setAppState({
         persons: currentPersons,
-        showPersons: appState.showPersons
+        showPersons: appState.showPersons,
+        showCockpit: appState.showCockpit
     });
   };
 
   const togglePersonsHandler = () => {
     setAppState({
       persons: appState.persons,
-      showPersons: !appState.showPersons
+      showPersons: !appState.showPersons,
+      showCockpit: appState.showCockpit
     });
   };
 
@@ -60,13 +64,26 @@ const app = () => {
     );
   }
 
+  const toggleCockpit = () => {
+    setAppState({
+      persons: appState.persons,
+      showPersons: appState.showPersons,
+      showCockpit: !appState.showCockpit
+    });
+  };
+
   return (
     <div className={classes.app}>
-      <Cockpit
-        personsLength={appState.persons.length}
-        clicked={togglePersonsHandler}
-        showPersons={appState.showPersons}
-      />
+      <button type="button" onClick={() => toggleCockpit()}>Remove cockpit</button>
+      { appState.showCockpit ? (
+        <Cockpit
+          personsLength={appState.persons.length}
+          clicked={togglePersonsHandler}
+          showPersons={appState.showPersons}
+        />
+        )
+        : null
+      }
       {personsToDisplay}
     </div>
 

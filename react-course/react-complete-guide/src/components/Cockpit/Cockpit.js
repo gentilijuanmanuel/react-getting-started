@@ -7,9 +7,14 @@ const cockpit = (props) => {
   
   // It's like componentDidMount() and componentDidUpdate() in one effect
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       alert('This is executed ONLY when Cockpit component initializes');
     }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+      console.log('This line is executed when the component is unmounted.');
+    };
   }, []);
 
   useEffect(() => {
