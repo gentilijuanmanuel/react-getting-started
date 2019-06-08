@@ -8,18 +8,18 @@ const cockpit = (props) => {
   // It's like componentDidMount() and componentDidUpdate() in one effect
   useEffect(() => {
     const timer = setTimeout(() => {
-      alert('This is executed ONLY when Cockpit component initializes');
+      // alert('This is executed ONLY when Cockpit component initializes');
     }, 1000);
 
     return () => {
       clearTimeout(timer);
-      console.log('This line is executed when the component is unmounted.');
+      // console.log('This line is executed when the component is unmounted.');
     };
   }, []);
 
   useEffect(() => {
     setTimeout(() => {
-      alert('This is executed only when personsLength changes.');
+      // alert('This is executed only when personsLength changes.');
     }, 1000);
   }, [personsLength]);
 
@@ -57,4 +57,4 @@ cockpit.propTypes = {
   clicked: PropTypes.func.isRequired
 };
 
-export default cockpit;
+export default React.memo(cockpit);

@@ -27,7 +27,7 @@ const app = () => {
     setAppState({
         persons,
         showPersons: appState.showPersons,
-        showCockpit: appState.showCockpit
+        showCockpit: appState.showPersons
     });
   };
 
@@ -50,6 +50,14 @@ const app = () => {
     });
   };
 
+  const toggleCockpit = () => {
+    setAppState({
+      persons: appState.persons,
+      showPersons: appState.showPersons,
+      showCockpit: !appState.showCockpit
+    });
+  };
+
   let personsToDisplay = null;
 
   if (appState.showPersons) {
@@ -64,17 +72,9 @@ const app = () => {
     );
   }
 
-  const toggleCockpit = () => {
-    setAppState({
-      persons: appState.persons,
-      showPersons: appState.showPersons,
-      showCockpit: !appState.showCockpit
-    });
-  };
-
   return (
     <div className={classes.app}>
-      <button type="button" onClick={() => toggleCockpit()}>Remove cockpit</button>
+      <button type="button" onClick={toggleCockpit}>Toggle cockpit</button>
       { appState.showCockpit ? (
         <Cockpit
           personsLength={appState.persons.length}

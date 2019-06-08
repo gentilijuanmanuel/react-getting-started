@@ -12,14 +12,13 @@ const person = (props) => {
   const {
     click, name, age, children, changed 
   } = props;
-
   // Simulation of an error in order to test ErrorBoundaries
   // const random = Math.random();
 
   // if(random > 0.7) {
   //     throw new Error('Something went wrong :(');
   // }
-
+  
   return (
     <div className={personClasses.person}>
       <p onClick={click}>
