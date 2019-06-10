@@ -27,7 +27,7 @@ const app = () => {
     setAppState({
         persons,
         showPersons: appState.showPersons,
-        showCockpit: appState.showPersons
+        showCockpit: appState.showCockpit
     });
   };
 
