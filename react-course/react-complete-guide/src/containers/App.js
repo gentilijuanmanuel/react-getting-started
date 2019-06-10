@@ -4,67 +4,65 @@ import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 
 const app = () => {
-  const [appState, setAppState] = useState({
+  const [personsState, setPersonsState] = useState({
     persons: [
       { id: 'dfeuf', name: 'Juanma', age: 23 },
       { id: 'fdfdf', name: 'Octavio', age: 22 },
       { id: '2e2e', name: 'Julián', age: 25 }
-    ],
+    ]
+  });
+
+  const [showPersonsState, setShowPersonsState] = useState({
     showPersons: false,
+  });
+
+  const [showCockpitState, setShowCockpitState] = useState({
     showCockpit: true
   });
 
   const changeNameHandler = (event, personId) => {
-    const modifiedPersonIndex = appState.persons.findIndex(person => person.id === personId);
+    const modifiedPersonIndex = personsState.persons.findIndex(person => person.id === personId);
 
     const persons = [
-        ...appState.persons
+        ...personsState.persons
     ];
 
     const modifiedPerson = persons[modifiedPersonIndex];
     modifiedPerson.name = event.target.value;
 
-    setAppState({
-        persons,
-        showPersons: appState.showPersons,
-        showCockpit: appState.showCockpit
+    setPersonsState({
+        persons
     });
   };
 
   const deletePersonHandler = (personIndex) => {
-    const currentPersons = [...appState.persons];
+    const currentPersons = [...personsState.persons];
     currentPersons.splice(personIndex, 1);
     
-    setAppState({
-        persons: currentPersons,
-        showPersons: appState.showPersons,
-        showCockpit: appState.showCockpit
+    setPersonsState({
+        persons: currentPersons
     });
   };
 
   const togglePersonsHandler = () => {
-    setAppState({
-      persons: appState.persons,
-      showPersons: !appState.showPersons,
-      showCockpit: appState.showCockpit
+    setShowPersonsState({
+      showPersons: !showPersonsState.showPersons
     });
   };
 
-  const toggleCockpit = () => {
-    setAppState({
-      persons: appState.persons,
-      showPersons: appState.showPersons,
-      showCockpit: !appState.showCockpit
+  const toggleCockpitHandler = () => {
+    setShowCockpitState({
+      showCockpit: !showCockpitState.showCockpit
     });
   };
 
   let personsToDisplay = null;
 
-  if (appState.showPersons) {
+  if (showPersonsState.showPersons) {
     personsToDisplay = (
       <div>
         <Persons
-          persons={appState.persons}
+          persons={personsState.persons}
           clicked={deletePersonHandler}
           changed={changeNameHandler}
         />
@@ -74,12 +72,12 @@ const app = () => {
 
   return (
     <div className={classes.app}>
-      <button type="button" onClick={toggleCockpit}>Toggle cockpit</button>
-      { appState.showCockpit ? (
+      <button type="button" onClick={toggleCockpitHandler}>Toggle cockpit</button>
+      { showCockpitState.showCockpit ? (
         <Cockpit
-          personsLength={appState.persons.length}
+          personsLength={personsState.persons.length}
           clicked={togglePersonsHandler}
-          showPersons={appState.showPersons}
+          showPersons={showPersonsState.showPersons}
         />
         )
         : null
