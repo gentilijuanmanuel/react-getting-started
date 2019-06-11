@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import WithClasses from '../hoc/WithClasses';
 import Cockpit from '../components/Cockpit/Cockpit';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
@@ -71,7 +72,7 @@ const app = () => {
   }
 
   return (
-    <div className={classes.app}>
+    <WithClasses classes={classes.app}>
       <button type="button" onClick={toggleCockpitHandler}>Toggle cockpit</button>
       { showCockpitState.showCockpit ? (
         <Cockpit
@@ -83,7 +84,7 @@ const app = () => {
         : null
       }
       {personsToDisplay}
-    </div>
+    </WithClasses>
 
     // We can create react apps without using JSX (behind the scenes, JSX is pure JavaScript)
     // return React.createElement('div', { className: 'App' }, React.createElement('h1', null, 'Hi, Im a React app!'))
