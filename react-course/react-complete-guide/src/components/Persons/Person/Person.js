@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Aux from '../../../hoc/Aux';
 import personClasses from './Person.css';
 
 // Fuction component WITHOUT arrow functions
@@ -20,23 +21,28 @@ const person = (props) => {
   // }
   
   return (
-    <div className={personClasses.person}>
-      <p onClick={click}>
-        Hello, I&apos;m
-        {' '}
-        {name}
-        {' '}
-        and I&apos;m
-        {' '}
-        {age}
-        {' '}
-        years old!
-      </p>
-      <p>
-        {children}
-      </p>
-      <input type="text" onChange={changed} value={name} />
-    </div>
+    /* React.Fragment is a built-in HOC to wrap other components. */
+    /* <React.Fragment> */
+    <Aux>
+      <div className={personClasses.person}>
+        <p onClick={click}>
+          Hello, I&apos;m
+          {' '}
+          {name}
+          {' '}
+          and I&apos;m
+          {' '}
+          {age}
+          {' '}
+          years old!
+        </p>
+        <p>
+          {children}
+        </p>
+        <input type="text" onChange={changed} value={name} />
+      </div>
+    </Aux>
+    /* </React.Fragment> */
   );
 };
 
