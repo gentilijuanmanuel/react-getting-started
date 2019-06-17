@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Aux from '../../../hoc/Aux';
 import personClasses from './Person.css';
+import withClass from '../../../hoc/withClass';
 
 // Fuction component WITHOUT arrow functions
 // export default function Person() {
@@ -23,25 +24,25 @@ const person = (props) => {
   return (
     /* React.Fragment is a built-in HOC to wrap other components. */
     /* <React.Fragment> */
-    <Aux>
-      <div className={personClasses.person}>
-        <p onClick={click}>
+    // <Aux>
+    <div>
+      <p onClick={click}>
           Hello, I&apos;m
-          {' '}
-          {name}
-          {' '}
+        {' '}
+        {name}
+        {' '}
           and I&apos;m
-          {' '}
-          {age}
-          {' '}
+        {' '}
+        {age}
+        {' '}
           years old!
-        </p>
-        <p>
-          {children}
-        </p>
-        <input type="text" onChange={changed} value={name} />
-      </div>
-    </Aux>
+      </p>
+      <p>
+        {children}
+      </p>
+      <input type="text" onChange={changed} value={name} />
+    </div>
+    // </Aux>
     /* </React.Fragment> */
   );
 };
@@ -58,4 +59,4 @@ person.propTypes = {
   changed: PropTypes.func.isRequired
 };
 
-export default person;
+export default withClass(person, personClasses.person);

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import WithClasses from '../hoc/WithClasses';
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Aux';
 import Cockpit from '../components/Cockpit/Cockpit';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
@@ -72,7 +73,8 @@ const app = () => {
   }
 
   return (
-    <WithClasses classes={classes.app}>
+    // <WithClass classes={classes.app}>
+    <Aux>
       <button type="button" onClick={toggleCockpitHandler}>Toggle cockpit</button>
       { showCockpitState.showCockpit ? (
         <Cockpit
@@ -84,11 +86,13 @@ const app = () => {
         : null
       }
       {personsToDisplay}
-    </WithClasses>
+    </Aux>
+    // </WithClass>
 
     // We can create react apps without using JSX (behind the scenes, JSX is pure JavaScript)
     // return React.createElement('div', { className: 'App' }, React.createElement('h1', null, 'Hi, Im a React app!'))
   );
 };
 
-export default app;
+// Another way to call HOC
+export default withClass(app, classes.app);
