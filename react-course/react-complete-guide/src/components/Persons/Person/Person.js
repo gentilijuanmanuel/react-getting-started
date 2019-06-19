@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import Aux from '../../../hoc/Aux';
+// import Aux from '../../../hoc/Aux';
 import personClasses from './Person.css';
 import withClass from '../../../hoc/withClass';
 
@@ -14,6 +14,13 @@ const person = (props) => {
   const {
     click, name, age, children, changed 
   } = props;
+
+  const focusInputRef = useRef(null);
+
+  useEffect(() => {
+    focusInputRef.current.focus();
+  }, []);
+
   // Simulation of an error in order to test ErrorBoundaries
   // const random = Math.random();
 
@@ -40,7 +47,7 @@ const person = (props) => {
       <p>
         {children}
       </p>
-      <input type="text" onChange={changed} value={name} />
+      <input ref={focusInputRef} type="text" onChange={changed} value={name} />
     </div>
     // </Aux>
     /* </React.Fragment> */
