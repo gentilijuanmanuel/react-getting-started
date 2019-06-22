@@ -4,6 +4,7 @@ import Aux from '../hoc/Aux';
 import Cockpit from '../components/Cockpit/Cockpit';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
+import AuthContext from '../context/auth-context';
 
 const app = () => {
   const [personsState, setPersonsState] = useState({
@@ -20,6 +21,10 @@ const app = () => {
 
   const [showCockpitState, setShowCockpitState] = useState({
     showCockpit: true
+  });
+
+  const [authenticatedState, setAuthenticatedState] = useState({
+    authenticated: false
   });
 
   const changeNameHandler = (event, personId) => {
@@ -58,6 +63,12 @@ const app = () => {
     });
   };
 
+  const loginHandler = () => {
+    setAuthenticatedState({
+      authenticated: true
+    });
+  };
+
   let personsToDisplay = null;
 
   if (showPersonsState.showPersons) {
@@ -76,16 +87,21 @@ const app = () => {
     // <WithClass classes={classes.app}>
     <Aux>
       <button type="button" onClick={toggleCockpitHandler}>Toggle cockpit</button>
-      { showCockpitState.showCockpit ? (
-        <Cockpit
-          personsLength={personsState.persons.length}
-          clicked={togglePersonsHandler}
-          showPersons={showPersonsState.showPersons}
-        />
-        )
-        : null
-      }
-      {personsToDisplay}
+      <AuthContext.Provider
+        value={{ authenticated: authenticatedState.authenticated, login: loginHandler }}
+      >
+        { showCockpitState.showCockpit ? (
+          <Cockpit
+            personsLength={personsState.persons.length}
+            clicked={togglePersonsHandler}
+            showPersons={showPersonsState.showPersons}
+            login={loginHandler}
+          />
+          )
+          : null
+        }
+        {personsToDisplay}
+      </AuthContext.Provider>
     </Aux>
     // </WithClass>
 

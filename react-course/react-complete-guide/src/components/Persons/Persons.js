@@ -15,7 +15,9 @@ const persons = props => (props.persons.map((person, index) => (
   </ErrorBoundary>
   )));
 
-const shouldPersonsUpdate = (oldProps, nextProps) => nextProps.persons === oldProps.persons;
+const shouldPersonsUpdate = (oldProps, nextProps) => 
+  nextProps.persons === oldProps.persons
+  && nextProps.isAuthenticated === oldProps.isAuthenticated;
 
 persons.propTypes = {
   persons: PropTypes.array.isRequired,

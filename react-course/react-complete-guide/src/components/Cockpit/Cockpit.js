@@ -1,9 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import cockpitClasses from './Cockpit.css';
+import AuthContext from '../../context/auth-context';
 
 const cockpit = (props) => {
-  const { personsLength, showPersons, clicked } = props;
+  const {
+    personsLength, showPersons, clicked, login
+  } = props;
+  
+  const authContext = useContext(AuthContext);
 
   const toggleButtonClick = useRef(null);
   
@@ -52,6 +57,7 @@ const cockpit = (props) => {
       >
         Toggle persons
       </button>
+      <button type="button" onClick={authContext.login}>Login</button>
     </div>
   );
 };
@@ -59,7 +65,8 @@ const cockpit = (props) => {
 cockpit.propTypes = {
   personsLength: PropTypes.number.isRequired,
   showPersons: PropTypes.bool.isRequired,
-  clicked: PropTypes.func.isRequired
+  clicked: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired
 };
 
 export default React.memo(cockpit);

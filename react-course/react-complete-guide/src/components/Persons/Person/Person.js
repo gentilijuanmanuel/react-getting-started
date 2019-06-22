@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 // import Aux from '../../../hoc/Aux';
 import personClasses from './Person.css';
 import withClass from '../../../hoc/withClass';
+import AuthContext from '../../../context/auth-context';
 
 // Fuction component WITHOUT arrow functions
 // export default function Person() {
@@ -12,8 +13,10 @@ import withClass from '../../../hoc/withClass';
 // Fuction component WITH arrow functions
 const person = (props) => {
   const {
-    click, name, age, children, changed 
+    click, name, age, children, changed
   } = props;
+
+  const authContext = useContext(AuthContext);
 
   const focusInputRef = useRef(null);
 
@@ -33,6 +36,7 @@ const person = (props) => {
     /* <React.Fragment> */
     // <Aux>
     <div>
+      <p>{authContext.authenticated ? 'The user is logged!' : 'The user is not logged.'}</p>
       <p onClick={click}>
           Hello, I&apos;m
         {' '}
