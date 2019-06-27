@@ -5,7 +5,7 @@ import AuthContext from '../../context/auth-context';
 
 const cockpit = (props) => {
   const {
-    personsLength, showPersons, clicked, login
+    personsLength, showPersons, clicked
   } = props;
   
   const authContext = useContext(AuthContext);
