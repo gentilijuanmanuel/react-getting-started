@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Classes from './BurgerIngredient.css';
 
+// It has beeen converter into a class base component
 const burgerIngredient = (props) => {
   const { type } = props;
 
@@ -38,7 +39,6 @@ const burgerIngredient = (props) => {
   return ingredient;
 };
 
-// TOOD: check if the type is correct
 burgerIngredient.PropTypes = {
   type: PropTypes.string.isRequired
 };
