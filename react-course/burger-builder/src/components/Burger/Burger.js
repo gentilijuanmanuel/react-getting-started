@@ -32,7 +32,7 @@ const burger = (props) => {
 };
 
 burger.propTypes = {
-  ingredients: PropTypes.object.isRequired
+  ingredients: PropTypes.instanceOf(Object).isRequired
 };
 
 export default burger;
