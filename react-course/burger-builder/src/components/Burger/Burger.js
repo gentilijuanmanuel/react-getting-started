@@ -15,9 +15,12 @@ const burger = (props) => {
   // .map((_, i) => ): _ is the first argument of the callback function (current Value of the array,
   // and we are not interested in this value) and i is the second argument of the callback,
   // the index.
-  const transformedIngredients = Object.keys(ingredients)
+  let transformedIngredients = Object.keys(ingredients)
       .map(ingredientKey => [...Array(ingredients[ingredientKey])].map((_, i) =>
-        <BurgerIngredient key={ingredientKey + i} type={ingredientKey} />));
+        <BurgerIngredient key={ingredientKey + i} type={ingredientKey} />))
+        .reduce((arr, el) => arr.concat(el), []);
+  
+  if (transformedIngredients.length === 0) { transformedIngredients = 'Please start adding some ingredients!'; }
 
   return (
     <div className={Classes.Burger}>
@@ -29,7 +32,7 @@ const burger = (props) => {
 };
 
 burger.propTypes = {
-  ingredients: PropTypes.element.isRequired
+  ingredients: PropTypes.object.isRequired
 };
 
 export default burger;
