@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Burger from '../../components/Burger/Burger';
+import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class BurgerBuilder extends Component {
@@ -19,7 +20,7 @@ class BurgerBuilder extends Component {
     return (
       <Aux>
         <Burger ingredients={ingredients} />
-        <div>Build controls</div>
+        <BuildControls />
       </Aux>
     );
   }
