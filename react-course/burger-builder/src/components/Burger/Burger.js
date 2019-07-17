@@ -15,6 +15,8 @@ const burger = (props) => {
   // .map((_, i) => ): _ is the first argument of the callback function (current Value of the array,
   // and we are not interested in this value) and i is the second argument of the callback,
   // the index.
+  
+  // TODO: READ THIS: https://medium.com/@robinpokorny/index-as-a-key-is-an-anti-pattern-e0349aece318
   let transformedIngredients = Object.keys(ingredients)
       .map(ingredientKey => [...Array(ingredients[ingredientKey])].map((_, i) =>
         <BurgerIngredient key={ingredientKey + i} type={ingredientKey} />))
