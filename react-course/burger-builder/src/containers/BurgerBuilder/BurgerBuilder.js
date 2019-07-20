@@ -45,7 +45,8 @@ class BurgerBuilder extends Component {
     const { ingredients, totalPrice } = this.state;
 
     const oldCount = ingredients[type];
-    const updatedCount = oldCount > 0 ? oldCount - 1 : 0;
+    const updatedCount = oldCount - 1;
+
     const updatedIngredients = {
       ...ingredients
     };
@@ -68,10 +69,25 @@ class BurgerBuilder extends Component {
   render() {
     const { ingredients } = this.state;
 
+    const disabledInfo = {
+      ...ingredients
+    };
+
+    // Not recommended by es-lint
+    // for (const ingredientKey in disabledInfo) {
+    //   if (disabledInfo.hasOwnProperty(ingredientKey)) {disabledInfo[ingredientKey] = disabledInfo[ingredientKey] <= 0;}
+    // }
+
+    // Recommended by es-lint
+    Object.keys(disabledInfo).forEach((ingredientKey) => {
+      disabledInfo[ingredientKey] = disabledInfo[ingredientKey] <= 0;
+    });
+
     return (
       <Aux>
         <Burger ingredients={ingredients} />
         <BuildControls
+          disabledInfo={disabledInfo}
           addIngredient={this.addIngredientHandler}
           removeIngredient={this.removeIngredientHandler}
         />

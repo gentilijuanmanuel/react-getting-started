@@ -11,7 +11,7 @@ const controls = [
 ];
 
 const buildControls = (props) => {
-  const { addIngredient, removeIngredient } = props;
+  const { addIngredient, removeIngredient, disabledInfo } = props;
 
   return (
     <div className={classes.BuildControls}>
@@ -21,6 +21,7 @@ const buildControls = (props) => {
           label={control.label}
           addIngredient={() => addIngredient(control.type)}
           removeIngredient={() => removeIngredient(control.type)}
+          disabled={disabledInfo[control.type]}
         />
     ))}
     </div>
@@ -29,7 +30,8 @@ const buildControls = (props) => {
 
 buildControls.propTypes = {
   addIngredient: PropTypes.func.isRequired,
-  removeIngredient: PropTypes.func.isRequired
+  removeIngredient: PropTypes.func.isRequired,
+  disabledInfo: PropTypes.object.isRequired
 };
 
 export default buildControls;
