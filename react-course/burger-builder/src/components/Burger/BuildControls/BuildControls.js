@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import PropTypes from 'prop-types';
 import classes from './BuildControls.css';
@@ -11,10 +12,13 @@ const controls = [
 ];
 
 const buildControls = (props) => {
-  const { addIngredient, removeIngredient, disabledInfo } = props;
+  const {
+ addIngredient, removeIngredient, disabledInfo, currentPrice 
+} = props;
 
   return (
     <div className={classes.BuildControls}>
+      <p>Current price: <strong>{currentPrice.toFixed(2)}</strong></p>
       {controls.map(control => (
         <BuildControl
           key={control.label}
@@ -31,7 +35,8 @@ const buildControls = (props) => {
 buildControls.propTypes = {
   addIngredient: PropTypes.func.isRequired,
   removeIngredient: PropTypes.func.isRequired,
-  disabledInfo: PropTypes.object.isRequired
+  disabledInfo: PropTypes.object.isRequired,
+  currentPrice: PropTypes.number.isRequired
 };
 
 export default buildControls;
