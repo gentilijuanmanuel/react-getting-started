@@ -18,8 +18,20 @@ class BurgerBuilder extends Component {
       cheese: 0,
       meat: 0
     },
-    totalPrice: 0
+    totalPrice: 0,
+    purchased: false
   };
+
+  // eslint-disable-next-line react/sort-comp
+  updatePurchasedState(ingredients) {
+    const sum = Object.keys(ingredients)
+                      .map(ingredientKey => ingredients[ingredientKey])
+                      .reduce((acumulator, element) => acumulator + element, 0);
+
+    this.setState({
+      purchased: sum > 0
+    });
+  }
 
   addIngredientHandler = (type) => {
     const { ingredients, totalPrice } = this.state;
@@ -39,6 +51,8 @@ class BurgerBuilder extends Component {
       ingredients: updatedIngredients,
       totalPrice: newPrice
     });
+
+    this.updatePurchasedState(updatedIngredients);
   }
 
   removeIngredientHandler = (type) => {
@@ -64,10 +78,12 @@ class BurgerBuilder extends Component {
     this.setState(
       updatedIngredients
     );
+
+    this.updatePurchasedState(updatedIngredients);
   }
 
   render() {
-    const { ingredients, totalPrice } = this.state;
+    const { ingredients, totalPrice, purchased } = this.state;
 
     const disabledInfo = {
       ...ingredients
@@ -91,6 +107,7 @@ class BurgerBuilder extends Component {
           disabledInfo={disabledInfo}
           addIngredient={this.addIngredientHandler}
           removeIngredient={this.removeIngredientHandler}
+          canPurchase={purchased}
         />
       </Aux>
     );

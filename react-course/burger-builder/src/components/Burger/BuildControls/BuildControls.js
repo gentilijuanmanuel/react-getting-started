@@ -13,14 +13,14 @@ const controls = [
 
 const buildControls = (props) => {
   const {
-    addIngredient, removeIngredient, disabledInfo, currentPrice 
+    addIngredient, removeIngredient, disabledInfo, currentPrice, canPurchase
   } = props;
 
-  let orderButtonDisabled = true;
+  // let orderButtonDisabled = true;
 
-  controls.forEach((control) => {
-    if (!disabledInfo[control.type]) { orderButtonDisabled = false; }
-  });
+  // controls.forEach((control) => {
+  //   if (!disabledInfo[control.type]) { orderButtonDisabled = false; }
+  // });
 
   return (
     <div className={classes.BuildControls}>
@@ -34,7 +34,7 @@ const buildControls = (props) => {
           disabled={disabledInfo[control.type]}
         />
       ))}
-      <button type="button" disabled={orderButtonDisabled} className={classes.OrderButton}>Order now</button>
+      <button type="button" disabled={!canPurchase} className={classes.OrderButton}>Order now</button>
     </div>
   );
 };
@@ -43,7 +43,8 @@ buildControls.propTypes = {
   addIngredient: PropTypes.func.isRequired,
   removeIngredient: PropTypes.func.isRequired,
   disabledInfo: PropTypes.object.isRequired,
-  currentPrice: PropTypes.number.isRequired
+  currentPrice: PropTypes.number.isRequired,
+  canPurchase: PropTypes.bool.isRequired
 };
 
 export default buildControls;
