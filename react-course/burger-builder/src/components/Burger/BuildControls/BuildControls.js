@@ -13,8 +13,14 @@ const controls = [
 
 const buildControls = (props) => {
   const {
- addIngredient, removeIngredient, disabledInfo, currentPrice 
-} = props;
+    addIngredient, removeIngredient, disabledInfo, currentPrice 
+  } = props;
+
+  let orderButtonDisabled = true;
+
+  controls.forEach((control) => {
+    if (!disabledInfo[control.type]) { orderButtonDisabled = false; }
+  });
 
   return (
     <div className={classes.BuildControls}>
@@ -27,7 +33,8 @@ const buildControls = (props) => {
           removeIngredient={() => removeIngredient(control.type)}
           disabled={disabledInfo[control.type]}
         />
-    ))}
+      ))}
+      <button type="button" disabled={orderButtonDisabled} className={classes.OrderButton}>Order now</button>
     </div>
   );
 };
