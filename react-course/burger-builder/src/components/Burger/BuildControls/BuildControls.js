@@ -16,12 +16,6 @@ const buildControls = (props) => {
     addIngredient, removeIngredient, disabledInfo, currentPrice, canPurchase
   } = props;
 
-  // let orderButtonDisabled = true;
-
-  // controls.forEach((control) => {
-  //   if (!disabledInfo[control.type]) { orderButtonDisabled = false; }
-  // });
-
   return (
     <div className={classes.BuildControls}>
       <p>Current price: <strong>{currentPrice.toFixed(2)}</strong></p>
