@@ -1,0 +1,9 @@
+.HamburgerButton {
+  background-color: #966909;
+  outline: none;
+  cursor: pointer;
+  /* border: 1px solid #966909; */
+  color: white;
+  font-family: inherit;
+  box-shadow: 2px 2px 2px #966909;
+}
