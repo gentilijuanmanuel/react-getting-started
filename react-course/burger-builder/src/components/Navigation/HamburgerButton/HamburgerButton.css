@@ -1,9 +1,32 @@
-.HamburgerButton {
+/* .HamburgerButton {
   background-color: #966909;
   outline: none;
   cursor: pointer;
-  /* border: 1px solid #966909; */
   color: white;
   font-family: inherit;
   box-shadow: 2px 2px 2px #966909;
+} */
+
+.HamburgerButton {
+  width: 40px;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.HamburgerButton div {
+  width: 90%;
+  height: 3px;
+  background-color: white;
+}
+
+@media (min-width: 500px) {
+  .HamburgerButton {
+      display: none;
+  }
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classes from './Toolbar.css';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
-import HamburgerButton from '../HamburgerButton/HamburgerMenu';
+import HamburgerButton from '../HamburgerButton/HamburgerButton';
 
 const toolbar = (props) => {
   const { hamburgerButtonClicked } = props;

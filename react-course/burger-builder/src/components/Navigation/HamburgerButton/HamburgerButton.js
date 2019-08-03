@@ -6,10 +6,14 @@ const hamburgerButton = (props) => {
   const { hamburgerButtonClicked } = props;
 
   return (
-    <div>
-      <button type="button" className={classes.HamburgerButton} onClick={hamburgerButtonClicked}>
-        Menu
-      </button>
+    <div
+      className={classes.HamburgerButton}
+      onClick={hamburgerButtonClicked}
+      role="presentation"
+    >
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
   );
 };
