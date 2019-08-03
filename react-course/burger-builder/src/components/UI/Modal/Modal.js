@@ -23,10 +23,12 @@ const modal = (props) => {
   );
 };
 
+const shouldModalUpdate = (oldProps, nextProps) => oldProps.show === nextProps.show;
+
 modal.propTypes = {
   children: PropTypes.element.isRequired,
   show: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired
 };
 
-export default modal;
+export default React.memo(modal, shouldModalUpdate);
