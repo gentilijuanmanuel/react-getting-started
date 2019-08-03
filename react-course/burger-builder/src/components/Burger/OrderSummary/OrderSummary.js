@@ -32,7 +32,7 @@ const orderSummary = (props) => {
 };
 
 orderSummary.propTypes = {
-  ingredients: PropTypes.element.isRequired,
+  ingredients: PropTypes.object.isRequired,
   cancelOrder: PropTypes.func.isRequired,
   confirmOrder: PropTypes.func.isRequired,
   totalPrice: PropTypes.number.isRequired
