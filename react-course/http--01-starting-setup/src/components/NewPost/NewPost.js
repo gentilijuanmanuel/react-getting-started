@@ -6,7 +6,8 @@ class NewPost extends Component {
     state = {
         title: '',
         content: '',
-        author: 'Juan Manuel Gentili'
+        author: 'Juan Manuel Gentili',
+        errorCreatingPost: false
     }
 
     createNewPostHandler = () => {
@@ -19,25 +20,32 @@ class NewPost extends Component {
       axios.post('https://jsonplaceholder.typicode.com/posts', postToSend)
            .then(function (response) {
               console.log(response);
+              this.setState({ errorCreatingPost: false });
             })
+           .catch(error => {
+              this.setState({ errorCreatingPost: true });
+           });
     }
 
     render () {
-        return (
-            <div className="NewPost">
-                <h1>Add a Post</h1>
-                <label>Title</label>
-                <input type="text" value={this.state.title} onChange={(event) => this.setState({title: event.target.value})} />
-                <label>Content</label>
-                <textarea rows="4" value={this.state.content} onChange={(event) => this.setState({content: event.target.value})} />
-                <label>Author</label>
-                <select value={this.state.author} onChange={(event) => this.setState({author: event.target.value})}>
-                    <option value="Juan Manuel Gentili">Juan Manuel Gentili</option>
-                    <option value="Maria Victoria Gentili">Maria Victoria Gentili</option>
-                </select>
-                <button onClick={this.createNewPostHandler}>Add Post</button>
-            </div>
-        );
+      const errorCreatingPostMessage = this.state.errorCreatingPost ? <p style={{textAlign: 'center'}}>An error ocurred trying to create the post :( Please try again!</p> : null;
+
+      return (
+          <div className="NewPost">
+              <h1>Add a Post</h1>
+              <label>Title</label>
+              <input type="text" value={this.state.title} onChange={(event) => this.setState({title: event.target.value})} />
+              <label>Content</label>
+              <textarea rows="4" value={this.state.content} onChange={(event) => this.setState({content: event.target.value})} />
+              <label>Author</label>
+              <select value={this.state.author} onChange={(event) => this.setState({author: event.target.value})}>
+                  <option value="Juan Manuel Gentili">Juan Manuel Gentili</option>
+                  <option value="Maria Victoria Gentili">Maria Victoria Gentili</option>
+              </select>
+              <button onClick={this.createNewPostHandler}>Add Post</button>
+              {errorCreatingPostMessage}
+          </div>
+      );
     }
 }
 
