@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axios';
 import Post from '../../components/Post/Post';
 import FullPost from '../../components/FullPost/FullPost';
 import NewPost from '../../components/NewPost/NewPost';
@@ -13,7 +13,7 @@ class Blog extends Component {
   };
 
   componentDidMount() {
-    axios.get('/posts')
+    axiosInstance.get('/posts')
          .then(response => {
            const posts = response.data.slice(0, 4);
            // Hardcode the author because the API dosen't have that property

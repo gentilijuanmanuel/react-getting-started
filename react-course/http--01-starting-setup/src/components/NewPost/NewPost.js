@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axios';
 import './NewPost.css';
 
 class NewPost extends Component {
@@ -17,10 +17,11 @@ class NewPost extends Component {
         author: this.state.author
       };
 
-      axios.post('/posts', postToSend)
+      axiosInstance.post('/posts', postToSend)
            .then(function (response) {
               console.log(response);
-              this.setState({ errorCreatingPost: false });
+              // TODO: fix issue here
+              //this.setState({ errorCreatingPost: false });
             })
            .catch(error => {
               this.setState({ errorCreatingPost: true });

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axios';
 import './FullPost.css';
 
 class FullPost extends Component {
@@ -15,7 +15,7 @@ class FullPost extends Component {
         ||
         (this.state.post && this.state.post.id !== this.props.selectedPostId)
       ) {
-        axios.get('/posts/' + this.props.selectedPostId)
+        axiosInstance.get('/posts/' + this.props.selectedPostId)
              .then(response => {
                 this.setState({ post: response.data, errorFetchingPost: false });
               })
@@ -27,7 +27,7 @@ class FullPost extends Component {
   };
 
   deletePostHandler = () => {
-    axios.delete('/posts/' + this.props.selectedPostId)
+    axiosInstance.delete('/posts/' + this.props.selectedPostId)
          .then(response => {
            console.log(response);
            this.setState({ errorDeletingPost: false });
