@@ -13,7 +13,7 @@ class Blog extends Component {
   };
 
   componentDidMount() {
-    axios.get('https://jsonplaceholder.typicode.com/posts')
+    axios.get('/posts')
          .then(response => {
            const posts = response.data.slice(0, 4);
            // Hardcode the author because the API dosen't have that property
