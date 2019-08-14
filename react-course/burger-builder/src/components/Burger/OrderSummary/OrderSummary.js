@@ -6,7 +6,7 @@ import Button from '../../UI/Button/Button';
 
 const orderSummary = (props) => {
   const {
- ingredients, cancelOrder, confirmOrder, totalPrice 
+ ingredients, cancelOrder, confirmOrder, totalPrice
 } = props;
 
   const ingredientSummary = Object.keys(ingredients)

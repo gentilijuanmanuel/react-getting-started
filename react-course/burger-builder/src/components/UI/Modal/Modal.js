@@ -23,7 +23,8 @@ const modal = (props) => {
   );
 };
 
-const shouldModalUpdate = (oldProps, nextProps) => oldProps.show === nextProps.show;
+const shouldModalUpdate = (oldProps, nextProps) =>
+  oldProps.show === nextProps.show && oldProps.children === nextProps.children;
 
 modal.propTypes = {
   children: PropTypes.element.isRequired,

@@ -5,6 +5,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Modal from '../../components/UI/Modal/Modal';
 import axios from '../../axios-orders';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 const INGREDIENT_PRICES = {
   salad: 1.5,
@@ -22,7 +23,8 @@ class BurgerBuilder extends Component {
     },
     totalPrice: 0,
     purchased: false,
-    purchasing: false
+    purchasing: false,
+    loading: false
   };
 
   // eslint-disable-next-line react/sort-comp
@@ -96,6 +98,10 @@ class BurgerBuilder extends Component {
   purchaseContinueHandler = () => {
     const { ingredients, totalPrice } = this.state;
 
+    this.setState({
+      loading: true
+    });
+
     const order = {
       ingredients,
       totalPrice,
@@ -112,13 +118,25 @@ class BurgerBuilder extends Component {
     };
 
     axios.post('/orders.json', order)
-         .then(response => console.log(response))
-         .catch(error => console.error(error));
+         .then((response) => {
+            console.log(response);
+            this.setState({
+              loading: false,
+              purchasing: false
+            });
+        })
+        .catch((error) => {
+          console.error(error);
+          this.setState({
+            loading: false,
+            purchasing: false
+          });
+        });
   }
 
   render() {
     const {
-      ingredients, totalPrice, purchased, purchasing
+      ingredients, totalPrice, purchased, purchasing, loading
     } = this.state;
 
     const disabledInfo = {
@@ -135,15 +153,23 @@ class BurgerBuilder extends Component {
       disabledInfo[ingredientKey] = disabledInfo[ingredientKey] <= 0;
     });
 
+    let orderSummary = (
+      <OrderSummary
+        loading={loading}
+        totalPrice={totalPrice}
+        ingredients={ingredients}
+        cancelOrder={this.purchaseCancelHandler}
+        confirmOrder={this.purchaseContinueHandler}
+      />
+    );
+    if (loading) {
+      orderSummary = <Spinner />;
+    }
+
     return (
       <Aux>
         <Modal show={purchasing} closeModal={this.purchaseCancelHandler}>
-          <OrderSummary
-            totalPrice={totalPrice}
-            ingredients={ingredients}
-            cancelOrder={this.purchaseCancelHandler}
-            confirmOrder={this.purchaseContinueHandler}
-          />
+          { orderSummary }
         </Modal>
         <Burger ingredients={ingredients} />
         <BuildControls
