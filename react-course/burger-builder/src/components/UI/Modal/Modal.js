@@ -27,9 +27,15 @@ const shouldModalUpdate = (oldProps, nextProps) =>
   oldProps.show === nextProps.show && oldProps.children === nextProps.children;
 
 modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  show: PropTypes.bool.isRequired,
-  closeModal: PropTypes.func.isRequired
+  children: PropTypes.element,
+  show: PropTypes.bool,
+  closeModal: PropTypes.func
+};
+
+modal.defaultProps = {
+  children: null,
+  show: null,
+  closeModal: null
 };
 
 export default React.memo(modal, shouldModalUpdate);
