@@ -16,17 +16,28 @@ const INGREDIENT_PRICES = {
 };
 class BurgerBuilder extends Component {
   state = {
-    ingredients: {
-      salad: 0,
-      bacon: 0,
-      cheese: 0,
-      meat: 0
-    },
+    ingredients: null,
     totalPrice: 0,
     purchased: false,
     purchasing: false,
-    loading: false
+    loading: false,
+    error: false
   };
+
+  componentDidMount() {
+    axios.get('/ingredients.json')
+         .then((response) => {
+           const totalPrice = this.calculateInitialPrice(response.data);
+           this.setState({
+             ingredients: response.data,
+             totalPrice
+           });
+         })
+         .catch((error) => {
+           console.error(error);
+           this.setState({ error: true });
+         });
+  }
 
   // eslint-disable-next-line react/sort-comp
   updatePurchasedState(ingredients) {
@@ -38,6 +49,10 @@ class BurgerBuilder extends Component {
       purchased: sum > 0
     });
   }
+
+  calculateInitialPrice = ingredients => Object.keys(ingredients)
+                 .map(ingredientKey => ingredients[ingredientKey] * INGREDIENT_PRICES[ingredientKey])
+                 .reduce((acumulator, element) => acumulator + element, 0)
 
   addIngredientHandler = (type) => {
     const { ingredients, totalPrice } = this.state;
@@ -137,32 +152,53 @@ class BurgerBuilder extends Component {
 
   render() {
     const {
-      ingredients, totalPrice, purchased, purchasing, loading
+      ingredients, totalPrice, purchased, purchasing, loading, error
     } = this.state;
 
-    const disabledInfo = {
-      ...ingredients
-    };
+    let burger = error ? <p>Ingredients can't be loaded :( </p> : <Spinner />;
 
-    // Not recommended by es-lint
-    // for (const ingredientKey in disabledInfo) {
-    //   if (disabledInfo.hasOwnProperty(ingredientKey)) {disabledInfo[ingredientKey] = disabledInfo[ingredientKey] <= 0;}
-    // }
+    let orderSummary;
 
-    // Recommended by es-lint
-    Object.keys(disabledInfo).forEach((ingredientKey) => {
-      disabledInfo[ingredientKey] = disabledInfo[ingredientKey] <= 0;
-    });
+    if (ingredients) {
+      const disabledInfo = {
+        ...ingredients
+      };
 
-    let orderSummary = (
-      <OrderSummary
-        loading={loading}
-        totalPrice={totalPrice}
-        ingredients={ingredients}
-        cancelOrder={this.purchaseCancelHandler}
-        confirmOrder={this.purchaseContinueHandler}
-      />
-    );
+      // Not recommended by es-lint
+      // for (const ingredientKey in disabledInfo) {
+      //   if (disabledInfo.hasOwnProperty(ingredientKey)) {disabledInfo[ingredientKey] = disabledInfo[ingredientKey] <= 0;}
+      // }
+
+      // Recommended by es-lint
+      Object.keys(disabledInfo).forEach((ingredientKey) => {
+        disabledInfo[ingredientKey] = disabledInfo[ingredientKey] <= 0;
+      });
+
+      burger = (
+        <Aux>
+          <Burger ingredients={ingredients} />
+          <BuildControls
+            currentPrice={totalPrice}
+            disabledInfo={disabledInfo}
+            addIngredient={this.addIngredientHandler}
+            removeIngredient={this.removeIngredientHandler}
+            canPurchase={purchased}
+            ordered={this.purchaseHandler}
+          />
+        </Aux>
+      );
+
+      orderSummary = (
+        <OrderSummary
+          loading={loading}
+          totalPrice={totalPrice}
+          ingredients={ingredients}
+          cancelOrder={this.purchaseCancelHandler}
+          confirmOrder={this.purchaseContinueHandler}
+        />
+      );
+    }
+
     if (loading) {
       orderSummary = <Spinner />;
     }
@@ -172,15 +208,7 @@ class BurgerBuilder extends Component {
         <Modal show={purchasing} closeModal={this.purchaseCancelHandler}>
           { orderSummary }
         </Modal>
-        <Burger ingredients={ingredients} />
-        <BuildControls
-          currentPrice={totalPrice}
-          disabledInfo={disabledInfo}
-          addIngredient={this.addIngredientHandler}
-          removeIngredient={this.removeIngredientHandler}
-          canPurchase={purchased}
-          ordered={this.purchaseHandler}
-        />
+        { burger }
       </Aux>
     );
   }
