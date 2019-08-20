@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import './Blog.css';
+import { Route, Link } from 'react-router-dom';
 import Posts from './Posts/Posts';
+import NewPost from '../Blog/NewPost/NewPost';
+import './Blog.css';
 
 class Blog extends Component {
   render () {
@@ -9,12 +11,18 @@ class Blog extends Component {
         <header>
           <nav>
             <ul>
-              <li><a href="/">Home</a></li>
-              <li><a href="/new-post">New post</a></li>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/new-post">New post</Link></li>
             </ul>
           </nav>
         </header>
-        <Posts />
+        {/* If we need to render some independent jsx code, use the render prop: */}
+        {/* <Route path="/" exact render={() => <h1>Home</h1>} /> */}
+        {/* If we need to render just a component, use the component prop: */}
+        <Route path="/" exact component={Posts} />
+        <Route path="/new-post" exact component={NewPost} />
+
+        {/* <Posts /> */}
         {/* <section>
           <FullPost selectedPostId={this.state.selectedPostId} />
         </section>
