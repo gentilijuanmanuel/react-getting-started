@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Post from '../../../components/Post/Post';
 import axiosInstance from '../../../axios';
 import './Posts.css';
@@ -38,14 +39,17 @@ class Posts extends Component {
     let postsToShow = <p>An error ocurred :( Please try again!</p>;
     
     if(!this.state.errorFetchingPosts) {
-      postsToShow = this.state.posts.map(post =>
-        <Post
-          key={post.id}
-          title={post.title}
-          author={post.author}
-          clicked={() => this.postClickedHandler(post.id)}
-        />
-      );
+      postsToShow = this.state.posts.map(post => (
+        <Link
+          to={'/' + post.id}
+          key={post.id}>
+          <Post
+            title={post.title}
+            author={post.author}
+            clicked={() => this.postClickedHandler(post.id)}
+          />
+        </Link>
+      ));
     }
 
     return(

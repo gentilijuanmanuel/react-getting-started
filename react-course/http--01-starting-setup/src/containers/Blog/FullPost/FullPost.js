@@ -9,25 +9,18 @@ class FullPost extends Component {
     errorFetchingPost: false
   }
 
-  componentDidUpdate(prevProps) {
-    if(this.props.selectedPostId) {
-      if((!this.state.post && !this.state.errorFetchingPost || prevProps.selectedPostId !== this.props.selectedPostId)
-        ||
-        (this.state.post && this.state.post.id !== this.props.selectedPostId)
-      ) {
-        axiosInstance.get('/posts/' + this.props.selectedPostId)
-             .then(response => {
-                this.setState({ post: response.data, errorFetchingPost: false });
-              })
-              .catch(error => {
-                this.setState({ errorFetchingPost: true });
-              });
-      }
-    }
+  componentDidMount() {
+    axiosInstance.get('/posts/' + this.props.match.params.postId)
+          .then(response => {
+            this.setState({ post: response.data, errorFetchingPost: false });
+          })
+          .catch(error => {
+            this.setState({ errorFetchingPost: true });
+          });
   };
 
   deletePostHandler = () => {
-    axiosInstance.delete('/posts/' + this.props.selectedPostId)
+    axiosInstance.delete('/posts/' + this.props.match.params.postId)
          .then(response => {
            console.log(response);
            this.setState({ errorDeletingPost: false });
