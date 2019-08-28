@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Route, NavLink, Switch } from 'react-router-dom';
 import Posts from './Posts/Posts';
 import NewPost from '../Blog/NewPost/NewPost';
-import FullPost from '../Blog/FullPost/FullPost';
 import './Blog.css';
 
 class Blog extends Component {
@@ -25,14 +24,15 @@ class Blog extends Component {
               To change this behavior, you have to find out which path you're on and add the new fragment to that existing path. You can do that with the url  property of props.match :
 
               <Link to={props.match.url + '/new'}>  will lead to example.com/posts/new  when placing this link in a component loaded on /posts . If you'd use the same <Link>  in a component loaded via /all-posts , the link would point to /all-posts/new . */}
-              <li><NavLink
-                    to="/"
-                    // It's redundant, I let it here just for reference. We can use activeStyle also.
-                    activeClassName="active"
-                    exact
-                  >
-                    Home
-                  </NavLink>
+              <li>
+                <NavLink
+                  to="/posts"
+                  // It's redundant, I let it here just for reference. We can use activeStyle also.
+                  activeClassName="active"
+                  exact
+                >
+                  Posts
+                </NavLink>
               </li>
               {/* If you want to just add a relative path to the current path you're working on: */}
               {/* <li><Link to={{
@@ -45,10 +45,9 @@ class Blog extends Component {
         {/* If we need to render some independent jsx code, use the render prop: */}
         {/* <Route path="/" exact render={() => <h1>Home</h1>} /> */}
         {/* If we need to render just a component, use the component prop: */}
-        <Route path="/" exact component={Posts} />
         <Switch>
-          <Route path="/new-post" exact component={NewPost} />
-          <Route path="/:postId" exact component={FullPost} />
+          <Route path="/new-post" component={NewPost} />
+          <Route path="/posts" component={Posts} />
         </Switch>
 
         {/* <section>

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import Post from '../../../components/Post/Post';
+import FullPost from '../FullPost/FullPost';
 import axiosInstance from '../../../axios';
 import './Posts.css';
 
 class Posts extends Component {
   state = {
     posts: [],
-    selectedPostId: null,
     errorFetchingPosts: false
   };
 
@@ -30,9 +30,7 @@ class Posts extends Component {
   };
 
   postClickedHandler = (id) => {
-    this.setState({
-      selectedPostId: id
-    });
+    this.props.history.push('/posts/', id);
   }
 
   render() {
@@ -41,7 +39,7 @@ class Posts extends Component {
     if(!this.state.errorFetchingPosts) {
       postsToShow = this.state.posts.map(post => (
         <Link
-          to={'/' + post.id}
+          to={'/posts/' + post.id}
           key={post.id}>
           <Post
             title={post.title}
@@ -52,10 +50,13 @@ class Posts extends Component {
       ));
     }
 
-    return(
-      <section className="Posts">
-        {postsToShow}
-      </section>
+    return (
+      <div>
+        <section className="Posts">
+          {postsToShow}
+        </section>
+        <Route path={this.props.match.url + '/:postId'} exact component={FullPost} />
+      </div>
     );
   };
 }

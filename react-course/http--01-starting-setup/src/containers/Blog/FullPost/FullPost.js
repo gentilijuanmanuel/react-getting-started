@@ -10,14 +10,27 @@ class FullPost extends Component {
   }
 
   componentDidMount() {
-    axiosInstance.get('/posts/' + this.props.match.params.postId)
+    this.loadData();
+  };
+
+  //Route didn't unmount the component and mount it again with different data. It'll reuse the loaded component and update it!
+  componentDidUpdate() {
+    this.loadData();
+  }
+
+  loadData() {
+    if ( this.props.match.params.postId ) {
+      if ( !this.state.post || (this.state.post && this.state.post.id !== +this.props.match.params.postId) ) {
+        axiosInstance.get('/posts/' + this.props.match.params.postId)
           .then(response => {
             this.setState({ post: response.data, errorFetchingPost: false });
           })
           .catch(error => {
             this.setState({ errorFetchingPost: true });
           });
-  };
+      }
+    }
+  }
 
   deletePostHandler = () => {
     axiosInstance.delete('/posts/' + this.props.match.params.postId)
@@ -38,7 +51,7 @@ class FullPost extends Component {
 
     let post = <p style={{textAlign: 'center'}}>Please select a Post!</p>;
 
-    if(this.props.selectedPostId) {
+    if(this.props.match.params.postId) {
       post = <p style={{textAlign: 'center'}}>Loading...</p>;
     }
     if(this.state.post) {
