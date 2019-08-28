@@ -22,6 +22,7 @@ class NewPost extends Component {
       axiosInstance.post('/posts', postToSend)
            .then(response => {
               console.log(response);
+              //Improvement: we can avoid updating the state using this.props.history.replace('/posts');
               this.setState({ submittedPost: true });
               // TODO: fix issue here
               //this.setState({ errorCreatingPost: false });
