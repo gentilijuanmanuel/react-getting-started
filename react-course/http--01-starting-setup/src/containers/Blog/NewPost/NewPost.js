@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axiosInstance from '../../../axios';
 import './NewPost.css';
 
@@ -7,7 +8,8 @@ class NewPost extends Component {
         title: '',
         content: '',
         author: 'Juan Manuel Gentili',
-        errorCreatingPost: false
+        errorCreatingPost: false,
+        submittedPost: false
     }
 
     createNewPostHandler = () => {
@@ -18,8 +20,9 @@ class NewPost extends Component {
       };
 
       axiosInstance.post('/posts', postToSend)
-           .then(function (response) {
+           .then(response => {
               console.log(response);
+              this.setState({ submittedPost: true });
               // TODO: fix issue here
               //this.setState({ errorCreatingPost: false });
             })
@@ -31,8 +34,14 @@ class NewPost extends Component {
     render () {
       const errorCreatingPostMessage = this.state.errorCreatingPost ? <p style={{textAlign: 'center'}}>An error ocurred trying to create the post :( Please try again!</p> : null;
 
+      let redirect = null;
+      if(this.state.submittedPost) {
+        redirect = <Redirect to="/posts" />
+      }
+
       return (
           <div className="NewPost">
+              {redirect}
               <h1>Add a Post</h1>
               <label>Title</label>
               <input type="text" value={this.state.title} onChange={(event) => this.setState({title: event.target.value})} />
