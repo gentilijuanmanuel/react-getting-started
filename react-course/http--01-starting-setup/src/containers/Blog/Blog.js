@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
+import asyncComponent from '../../hoc/asyncComponent';
 import Posts from './Posts/Posts';
-import NewPost from '../Blog/NewPost/NewPost';
+//import NewPost from '../Blog/NewPost/NewPost';
 import './Blog.css';
+
+// The import is made when the arrow function is executed.
+// The arrow function is executed when AsyncNewPost is render to the screen (when we click the NavLink).
+const AsyncNewPost = asyncComponent(() => {
+  return import('../Blog/NewPost/NewPost');
+});
 
 class Blog extends Component {
   render () {
@@ -42,21 +49,13 @@ class Blog extends Component {
             </ul>
           </nav>
         </header>
-        {/* If we need to render some independent jsx code, use the render prop: */}
-        {/* <Route path="/" exact render={() => <h1>Home</h1>} /> */}
-        {/* If we need to render just a component, use the component prop: */}
         <Switch>
-          <Route path="/new-post" component={NewPost} />
+          <Route path="/new-post" component={AsyncNewPost} />
           <Route path="/posts" component={Posts} />
           <Redirect path="/" to="/posts" />
+          {/* Use the following Route without the Redirect component, because the two are catching every unknown path */}
+          {/* <Route render={() => <h1>404 not found :(</h1>} /> */}
         </Switch>
-
-        {/* <section>
-          <FullPost selectedPostId={this.state.selectedPostId} />
-        </section>
-        <section>
-          <NewPost />
-        </section> */}
       </div>
     );
   }
