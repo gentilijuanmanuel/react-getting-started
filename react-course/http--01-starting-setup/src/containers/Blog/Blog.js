@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 import asyncComponent from '../../hoc/asyncComponent';
 import Posts from './Posts/Posts';
-//import NewPost from '../Blog/NewPost/NewPost';
 import './Blog.css';
 
 // The import is made when the arrow function is executed.

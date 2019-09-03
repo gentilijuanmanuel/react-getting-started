@@ -29,9 +29,11 @@ class Posts extends Component {
            });
   };
 
-  postClickedHandler = (id) => {
-    this.props.history.push('/posts/', id);
-  }
+  // Another way to navigate: programmatically.
+  // The first way is using the Link component.
+  // postClickedHandler = (id) => {
+  //   this.props.history.push({pathname: '/posts/' + id});
+  // }
 
   render() {
     let postsToShow = <p>An error ocurred :( Please try again!</p>;
@@ -44,7 +46,7 @@ class Posts extends Component {
           <Post
             title={post.title}
             author={post.author}
-            clicked={() => this.postClickedHandler(post.id)}
+            // clicked={() => this.postClickedHandler(post.id)}
           />
         </Link>
       ));
@@ -55,7 +57,7 @@ class Posts extends Component {
         <section className="Posts">
           {postsToShow}
         </section>
-        <Route path={this.props.match.url + '/:postId'} exact component={FullPost} />
+        <Route path={this.props.match.url + '/:postId'} component={FullPost} />
       </div>
     );
   };

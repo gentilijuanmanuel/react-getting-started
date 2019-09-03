@@ -1,0 +1,11 @@
+.App a {
+  margin: 20px;
+  color: black;
+  text-decoration: unset
+}
+
+.App a:active,
+.App a:hover {
+  color: orangered;
+  text-decoration: unset
+}
