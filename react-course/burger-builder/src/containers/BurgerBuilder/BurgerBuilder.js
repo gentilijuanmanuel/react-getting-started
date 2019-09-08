@@ -120,6 +120,7 @@ class BurgerBuilder extends Component {
   purchaseContinueHandler = () => {
     this.props.history.push({ pathname: '/checkout' });
 
+    // TODO: refactor this
     // const { ingredients, totalPrice } = this.state;
 
     // this.setState({
@@ -210,8 +211,6 @@ class BurgerBuilder extends Component {
     if (loading) {
       orderSummary = <Spinner />;
     }
-
-    console.log(purchased);
 
     return (
       <Aux>
