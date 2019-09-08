@@ -34,7 +34,7 @@ const buildControls = (props) => {
         className={classes.OrderButton}
         onClick={ordered}
       >
-          Order now
+        Order now
       </button>
     </div>
   );

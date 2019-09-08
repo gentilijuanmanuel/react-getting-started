@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+
 import Aux from '../../hoc/Aux/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Modal from '../../components/UI/Modal/Modal';
-import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
+
+import axios from '../../axios-orders';
+
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 const INGREDIENT_PRICES = {
@@ -30,7 +33,8 @@ class BurgerBuilder extends Component {
            const totalPrice = this.calculateInitialPrice(response.data);
            this.setState({
              ingredients: response.data,
-             totalPrice
+             totalPrice,
+             purchased: totalPrice > 0
            });
          })
          .catch((error) => {
@@ -112,42 +116,44 @@ class BurgerBuilder extends Component {
   }
 
   purchaseContinueHandler = () => {
-    const { ingredients, totalPrice } = this.state;
+    this.props.history.push({ pathname: '/checkout' });
 
-    this.setState({
-      loading: true
-    });
+    // const { ingredients, totalPrice } = this.state;
 
-    const order = {
-      ingredients,
-      totalPrice,
-      customer: {
-        name: 'Juan Manuel Gentili',
-        addres: {
-          street: 'Test street 1',
-          zipCode: '1234',
-          country: 'Argentina'
-        },
-        email: 'gentili@gmail.com',
-        deliveryMethod: 'fastest'
-      }
-    };
+    // this.setState({
+    //   loading: true
+    // });
 
-    axios.post('/orders.json', order)
-         .then((response) => {
-            console.log(response);
-            this.setState({
-              loading: false,
-              purchasing: false
-            });
-        })
-        .catch((error) => {
-          console.error(error);
-          this.setState({
-            loading: false,
-            purchasing: false
-          });
-        });
+    // const order = {
+    //   ingredients,
+    //   totalPrice,
+    //   customer: {
+    //     name: 'Juan Manuel Gentili',
+    //     addres: {
+    //       street: 'Test street 1',
+    //       zipCode: '1234',
+    //       country: 'Argentina'
+    //     },
+    //     email: 'gentili@gmail.com',
+    //     deliveryMethod: 'fastest'
+    //   }
+    // };
+
+    // axios.post('/orders.json', order)
+    //      .then((response) => {
+    //         console.log(response);
+    //         this.setState({
+    //           loading: false,
+    //           purchasing: false
+    //         });
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //       this.setState({
+    //         loading: false,
+    //         purchasing: false
+    //       });
+    //     });
   }
 
   render() {
@@ -202,6 +208,8 @@ class BurgerBuilder extends Component {
     if (loading) {
       orderSummary = <Spinner />;
     }
+
+    console.log(purchased);
 
     return (
       <Aux>
