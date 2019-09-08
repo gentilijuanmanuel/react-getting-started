@@ -1,15 +1,19 @@
 // Note about containers: there are statefull components that manage their own state,
 // and pass them to other stateless components.
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 
 class Checkout extends Component {
   cancelCheckoutHandler = () => {
-    console.log('Cancel checkout handler!');
+    const { history } = this.props;
+    history.goBack();
   }
 
   confirmCheckoutHandler = () => {
-    console.log('Confirm checkout handler!');
+    const { history } = this.props;
+    history.replace({ pathname: 'checkout/customer-data' });
   }
 
   render() {
@@ -21,5 +25,9 @@ class Checkout extends Component {
     );
   }
 }
+
+Checkout.propTypes = {
+  history: PropTypes.object.isRequired
+};
 
 export default Checkout;
