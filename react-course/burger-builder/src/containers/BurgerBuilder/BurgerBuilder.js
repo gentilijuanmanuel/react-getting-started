@@ -1,6 +1,7 @@
 // Note about containers: there are statefull components that manage their own state,
 // and pass them to other stateless components.
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Aux from '../../hoc/Aux/Aux';
 import Burger from '../../components/Burger/Burger';
@@ -118,7 +119,10 @@ class BurgerBuilder extends Component {
   }
 
   purchaseContinueHandler = () => {
-    this.props.history.push({ pathname: '/checkout' });
+    const { history } = this.props;
+    const { ingredients } = this.state;
+
+    history.push({ pathname: '/checkout', state: { ingredients } });
 
     // TODO: refactor this
     // const { ingredients, totalPrice } = this.state;
@@ -222,5 +226,9 @@ class BurgerBuilder extends Component {
     );
   }
 }
+
+BurgerBuilder.propTypes = {
+  history: PropTypes.object.isRequired
+};
 
 export default withErrorHandler(BurgerBuilder, axios);

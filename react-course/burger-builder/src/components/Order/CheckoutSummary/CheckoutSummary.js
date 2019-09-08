@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Burger from '../../Burger/Burger';
@@ -6,25 +7,21 @@ import Button from '../../UI/Button/Button';
 
 import classes from './CheckoutSummary.css';
 
+// eslint-disable-next-line react/prefer-stateless-function
 class CheckoutSummary extends Component {
-  state = {
-    ingredients: {
-      salad: 1,
-      meat: 1,
-      cheese: 1,
-      bacon: 1
-    }
-  };
-
   render() {
-    const { ingredients } = this.state;
-    const { cancelCheckoutClicked, confirmCheckoutClicked } = this.props;
+    const { cancelCheckoutClicked, confirmCheckoutClicked, ...routerProps } = this.props;
+
+    let burger = <p>Seems like you didn't prepare your burger.</p>;
+    if (routerProps.location.state.ingredients != null) {
+      burger = <Burger ingredients={routerProps.location.state.ingredients} />;
+    }
 
     return (
       <div className={classes.CheckoutSummary}>
         <h1>We hope it tastes well.</h1>
         <div className={classes.Burger}>
-          <Burger ingredients={ingredients} />
+          {burger}
         </div>
         <Button btnType="Danger" clicked={cancelCheckoutClicked}>
           Cancel
@@ -38,8 +35,13 @@ class CheckoutSummary extends Component {
 }
 
 CheckoutSummary.propTypes = {
+  routerProps: PropTypes.element,
   cancelCheckoutClicked: PropTypes.func.isRequired,
   confirmCheckoutClicked: PropTypes.func.isRequired
 };
 
-export default CheckoutSummary;
+CheckoutSummary.defaultProps = {
+  routerProps: null
+};
+
+export default withRouter(CheckoutSummary);
