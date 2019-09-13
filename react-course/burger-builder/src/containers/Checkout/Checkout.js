@@ -19,8 +19,10 @@ class Checkout extends Component {
   }
 
   render() {
+    const { match } = this.props;
+
     // eslint-disable-next-line prefer-template
-    const contactDataPath = this.props.match.path + '/contact-data';
+    const contactDataPath = match.path + '/contact-data';
 
     return (
       <div>
@@ -34,8 +36,10 @@ class Checkout extends Component {
   }
 }
 
+// TODO: be more specific
 Checkout.propTypes = {
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 export default Checkout;
