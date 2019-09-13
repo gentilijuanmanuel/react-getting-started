@@ -9,13 +9,28 @@ import classes from './CheckoutSummary.css';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class CheckoutSummary extends Component {
+  state = {
+    ingredients: null
+  }
+
+  componentDidMount() {
+    const { location } = this.props;
+
+    if (location.state) {
+      this.setState({
+        ingredients: location.state.ingredients
+      });
+    }
+  }
+
   render() {
-    const { cancelCheckoutClicked, confirmCheckoutClicked, location } = this.props;
+    const { cancelCheckoutClicked, confirmCheckoutClicked } = this.props;
+    const { ingredients } = this.state;
 
     let message = "Seems like you didn't prepare your burger.";
     let burger = null;
-    if (location.state && location.state.ingredients != null) {
-      burger = <Burger ingredients={location.state.ingredients} />;
+    if (ingredients != null) {
+      burger = <Burger ingredients={ingredients} />;
       message = 'We hope it tastes well.';
     }
 
