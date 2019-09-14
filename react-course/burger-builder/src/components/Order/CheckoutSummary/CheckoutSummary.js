@@ -12,8 +12,6 @@ class CheckoutSummary extends Component {
   render() {
     const { cancelCheckoutClicked, confirmCheckoutClicked, ingredients } = this.props;
 
-    console.log(ingredients);
-
     let message = "Seems like you didn't prepare your burger.";
     let burger = null;
     if (ingredients != null) {

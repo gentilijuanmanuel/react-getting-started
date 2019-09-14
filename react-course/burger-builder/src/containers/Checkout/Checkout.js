@@ -9,7 +9,8 @@ import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
   state = {
-    ingredients: null
+    ingredients: null,
+    totalPrice: 0
   }
 
   componentDidMount() {
@@ -17,7 +18,8 @@ class Checkout extends Component {
 
     if (location.state) {
       this.setState({
-        ingredients: location.state.ingredients
+        ingredients: location.state.ingredients,
+        totalPrice: location.state.totalPrice
       });
     }
   }
@@ -34,7 +36,7 @@ class Checkout extends Component {
 
   render() {
     const { match } = this.props;
-    const { ingredients } = this.state;
+    const { ingredients, totalPrice } = this.state;
 
     // eslint-disable-next-line prefer-template
     const contactDataPath = match.path + '/contact-data';
@@ -46,7 +48,7 @@ class Checkout extends Component {
           cancelCheckoutClicked={this.cancelCheckoutHandler}
           confirmCheckoutClicked={this.confirmCheckoutHandler}
         />
-        <Route path={contactDataPath} render={() => (<ContactData ingredients={ingredients} />)} />
+        <Route path={contactDataPath} render={props => (<ContactData ingredients={ingredients} totalPrice={totalPrice} {...props} />)} />
       </div>
     );
   }
