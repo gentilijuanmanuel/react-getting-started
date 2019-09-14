@@ -9,23 +9,10 @@ import classes from './CheckoutSummary.css';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class CheckoutSummary extends Component {
-  state = {
-    ingredients: null
-  }
-
-  componentDidMount() {
-    const { location } = this.props;
-
-    if (location.state) {
-      this.setState({
-        ingredients: location.state.ingredients
-      });
-    }
-  }
-
   render() {
-    const { cancelCheckoutClicked, confirmCheckoutClicked } = this.props;
-    const { ingredients } = this.state;
+    const { cancelCheckoutClicked, confirmCheckoutClicked, ingredients } = this.props;
+
+    console.log(ingredients);
 
     let message = "Seems like you didn't prepare your burger.";
     let burger = null;
@@ -52,9 +39,13 @@ class CheckoutSummary extends Component {
 }
 
 CheckoutSummary.propTypes = {
-  location: PropTypes.object.isRequired,
+  ingredients: PropTypes.object,
   cancelCheckoutClicked: PropTypes.func.isRequired,
   confirmCheckoutClicked: PropTypes.func.isRequired
+};
+
+CheckoutSummary.defaultProps = {
+  ingredients: null
 };
 
 export default withRouter(CheckoutSummary);

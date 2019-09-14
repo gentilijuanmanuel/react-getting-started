@@ -8,6 +8,20 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
+  state = {
+    ingredients: null
+  }
+
+  componentDidMount() {
+    const { location } = this.props;
+
+    if (location.state) {
+      this.setState({
+        ingredients: location.state.ingredients
+      });
+    }
+  }
+
   cancelCheckoutHandler = () => {
     const { history } = this.props;
     history.goBack();
@@ -20,6 +34,7 @@ class Checkout extends Component {
 
   render() {
     const { match } = this.props;
+    const { ingredients } = this.state;
 
     // eslint-disable-next-line prefer-template
     const contactDataPath = match.path + '/contact-data';
@@ -27,10 +42,11 @@ class Checkout extends Component {
     return (
       <div>
         <CheckoutSummary
+          ingredients={ingredients}
           cancelCheckoutClicked={this.cancelCheckoutHandler}
           confirmCheckoutClicked={this.confirmCheckoutHandler}
         />
-        <Route path={contactDataPath} component={ContactData} />
+        <Route path={contactDataPath} render={() => (<ContactData ingredients={ingredients} />)} />
       </div>
     );
   }
@@ -39,7 +55,8 @@ class Checkout extends Component {
 // TODO: be more specific
 Checkout.propTypes = {
   history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 export default Checkout;
