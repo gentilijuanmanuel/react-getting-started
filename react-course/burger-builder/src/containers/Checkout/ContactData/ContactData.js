@@ -23,8 +23,10 @@ class ContactData extends Component {
     event.preventDefault();
 
     const {
-      ingredients, totalPrice, name, email, address 
+      name, email, address 
     } = this.state;
+
+    const { ingredients, totalPrice } = this.props;
 
     const { history } = this.props;
 
@@ -52,7 +54,7 @@ class ContactData extends Component {
       customer: {
         name: 'Juan',
         email: 'juan@blabla.com',
-        addres: {
+        address: {
           street: 'Street 1',
           postal: 'Whatever',
         }
@@ -126,7 +128,9 @@ class ContactData extends Component {
 
 // TODO: fix me
 ContactData.propTypes = {
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  ingredients: PropTypes.object.isRequired,
+  totalPrice: PropTypes.number.isRequired
 };
 
 export default ContactData;
