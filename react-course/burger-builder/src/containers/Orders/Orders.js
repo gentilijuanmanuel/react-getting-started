@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import axios from '../../axios-orders';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 import OrderItem from './Order/OrderItem';
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -49,4 +50,4 @@ class Orders extends Component {
   }
 }
 
-export default Orders;
+export default withErrorHandler(Orders, axios);
