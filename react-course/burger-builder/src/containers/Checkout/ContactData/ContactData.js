@@ -4,6 +4,8 @@ import axios from '../../../axios-orders';
 
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import Input from '../../../components/UI/Input/Input';
+
 import classes from './ContactData.css';
 
 class ContactData extends Component {
@@ -89,29 +91,29 @@ class ContactData extends Component {
       contactData = (
         <div className={classes.ContactData}>
           <h4>Enter your contact data</h4>
-          <input
-            className={classes.Input}
+          <Input
+            inputtype="input"
             type="text"
             name="name"
             placeholder="Name"
             // value={name}
           />
-          <input
-            className={classes.Input}
+          <Input
+            inputtype="input"
             type="email"
             name="email"
             placeholder="E-mail"
             // value={email}
           />
-          <input
-            className={classes.Input}
+          <Input
+            inputtype="input"
             type="text"
             name="street"
             placeholder="Street"
             // value={address.street}
           />
-          <input
-            className={classes.Input}
+          <Input
+            inputtype="input"
             type="text"
             name="postal"
             placeholder="Postal"
@@ -129,8 +131,12 @@ class ContactData extends Component {
 // TODO: fix me
 ContactData.propTypes = {
   history: PropTypes.object.isRequired,
-  ingredients: PropTypes.object.isRequired,
+  ingredients: PropTypes.object,
   totalPrice: PropTypes.number.isRequired
+};
+
+ContactData.defaulTypes = {
+  ingredients: null
 };
 
 export default ContactData;
