@@ -8,8 +8,6 @@ const input = (props) => {
     label, inputtype, elementConfig, value 
   } = props;
 
-  console.log(props);
-
   let inputElement = null;
 
   switch (inputtype) {
@@ -29,6 +27,23 @@ const input = (props) => {
           {...elementConfig}
           value={value}
         />
+      );
+      break;
+    case ('select'):
+      inputElement = (
+        <select
+          className={classes.InputElement}
+          value={value}
+        >
+          {elementConfig.options.map(option => (
+            <option
+              key={option.value}
+              value={option.value}
+            >
+              {option.displayValue}
+            </option>
+          ))}
+        </select>
       );
       break;
     default:

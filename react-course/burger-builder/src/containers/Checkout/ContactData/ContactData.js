@@ -13,15 +13,17 @@ import classes from './ContactData.css';
 class ContactData extends Component {
   state = {
     orderForm: {
-      name: createFormElementHelper('input', 'text', 'Your name', ''),
-      email: createFormElementHelper('input', 'email', 'Your email', ''),
-      country: createFormElementHelper('input', 'text', 'Your country', ''),
-      street: createFormElementHelper('input', 'text', 'Your street', ''),
-      postal: createFormElementHelper('input', 'text', 'Your postal', ''),
+      name: createFormElementHelper('input', 'text', null, 'Your name', ''),
+      email: createFormElementHelper('input', 'email', null, 'Your email', ''),
+      country: createFormElementHelper('input', 'text', null, 'Your country', ''),
+      street: createFormElementHelper('input', 'text', null, 'Your street', ''),
+      postal: createFormElementHelper('input', 'text', null, 'Your postal', ''),
       deliveryMethod: createFormElementHelper(
         'select',
+        null,
         [{ value: 'fastest', displayValue: 'Fastest' }, { value: 'cheapest', displayValue: 'Cheapest' }],
-        'Choose a delivery method', ''
+        'Choose a delivery method',
+        ''
       )
     },
     loading: false

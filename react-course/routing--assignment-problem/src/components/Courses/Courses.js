@@ -16,7 +16,6 @@ class Courses extends Component {
 
   // Navigate to course details programmatically
   // courseClickedHandler = (id) => {
-  //   console.log(this.props);
   //   this.props.history.push({pathname: '/courses/' + id});
   // }
 
