@@ -42,17 +42,16 @@ class ContactData extends Component {
       loading: true
     });
 
+    const customer = {};
+
+    Object.keys(orderForm).forEach((orderFormElementKey) => {
+      customer[orderFormElementKey] = orderForm[orderFormElementKey].value;
+    });
+
     const order = {
       ingredients,
       totalPrice,
-      customer: {
-        name: orderForm.name.value,
-        email: orderForm.email.value,
-        country: orderForm.country.value,
-        street: orderForm.street.value,
-        postal: orderForm.postal.value,
-        deliveryMethod: orderForm.deliveryMethod.value,
-      }
+      customer
     };
 
     axios.post('/orders.json', order)
