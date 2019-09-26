@@ -5,7 +5,7 @@ import classes from './Input.css';
 
 const input = (props) => {
   const {
-    label, inputtype, elementConfig, value 
+    label, inputtype, elementConfig, value, changed
   } = props;
 
   let inputElement = null;
@@ -17,6 +17,7 @@ const input = (props) => {
           className={classes.InputElement}
           {...elementConfig}
           value={value}
+          onChange={changed}
         />
       );
       break;
@@ -26,6 +27,7 @@ const input = (props) => {
           className={classes.InputElement} 
           {...elementConfig}
           value={value}
+          onChange={changed}
         />
       );
       break;
@@ -33,8 +35,10 @@ const input = (props) => {
       inputElement = (
         <select
           className={classes.InputElement}
-          value={value}
+          defaultValue="default"
+          onChange={changed}
         >
+          <option value="default" disabled>Choose a delivery method...</option>
           {elementConfig.options.map(option => (
             <option
               key={option.value}
@@ -64,7 +68,8 @@ input.propTypes = {
   label: PropTypes.string.isRequired,
   inputtype: PropTypes.string.isRequired,
   elementConfig: PropTypes.object.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
+  changed: PropTypes.func.isRequired
 };
 
 export default input;

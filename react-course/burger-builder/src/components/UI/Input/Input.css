@@ -5,6 +5,7 @@
 }
 
 .Label {
+  text-align: left;
   font-weight: bold;
   display: block;
   margin-bottom: 8px

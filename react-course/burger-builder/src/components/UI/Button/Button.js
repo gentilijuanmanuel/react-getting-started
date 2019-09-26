@@ -7,7 +7,7 @@ const button = (props) => {
 
   return (
     <button
-      type="button"
+      type="submit"
       onClick={clicked}
       className={[classes.Button, classes[btnType]].join(' ')}
     >
@@ -17,9 +17,13 @@ const button = (props) => {
 };
 
 button.propTypes = {
-  clicked: PropTypes.func.isRequired,
+  clicked: PropTypes.func,
   btnType: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired
+};
+
+button.defaultProps = {
+  clicked: null
 };
 
 export default button;

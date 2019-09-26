@@ -1,5 +1,6 @@
-function createFormElementHelper(elementType, type, options, placeholder, value) {
+function createFormElementHelper(name, elementType, type, options, placeholder, value) {
   return {
+    name,
     elementType,
     elementConfig: {
       type,

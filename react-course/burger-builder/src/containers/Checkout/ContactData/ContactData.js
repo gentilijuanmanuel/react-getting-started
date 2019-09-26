@@ -13,12 +13,13 @@ import classes from './ContactData.css';
 class ContactData extends Component {
   state = {
     orderForm: {
-      name: createFormElementHelper('input', 'text', null, 'Your name', ''),
-      email: createFormElementHelper('input', 'email', null, 'Your email', ''),
-      country: createFormElementHelper('input', 'text', null, 'Your country', ''),
-      street: createFormElementHelper('input', 'text', null, 'Your street', ''),
-      postal: createFormElementHelper('input', 'text', null, 'Your postal', ''),
+      name: createFormElementHelper('Name', 'input', 'text', null, 'Your name', ''),
+      email: createFormElementHelper('E-mail', 'input', 'email', null, 'Your email', ''),
+      country: createFormElementHelper('Country', 'input', 'text', null, 'Your country', ''),
+      street: createFormElementHelper('Street', 'input', 'text', null, 'Your street', ''),
+      postal: createFormElementHelper('Postal', 'input', 'text', null, 'Your postal', ''),
       deliveryMethod: createFormElementHelper(
+        'Delivery method',
         'select',
         null,
         [{ value: 'fastest', displayValue: 'Fastest' }, { value: 'cheapest', displayValue: 'Cheapest' }],
@@ -34,42 +35,23 @@ class ContactData extends Component {
     // done by native the HTML element (button).
     event.preventDefault();
 
-    const {
-      name, email, address 
-    } = this.state;
-
-    const { ingredients, totalPrice } = this.props;
-
-    const { history } = this.props;
+    const { orderForm } = this.state;
+    const { ingredients, totalPrice, history } = this.props;
 
     this.setState({
       loading: true
     });
 
-    // TODO: refactor when implementing forms.
-    // const order = {
-    //   ingredients,
-    //   totalPrice,
-    //   customer: {
-    //     name,
-    //     email,
-    //     addres: {
-    //       street: address.street,
-    //       postal: address.postal,
-    //     }
-    //   }
-    // };
-
     const order = {
       ingredients,
       totalPrice,
       customer: {
-        name: 'Juan',
-        email: 'juan@blabla.com',
-        address: {
-          street: 'Street 1',
-          postal: 'Whatever',
-        }
+        name: orderForm.name.value,
+        email: orderForm.email.value,
+        country: orderForm.country.value,
+        street: orderForm.street.value,
+        postal: orderForm.postal.value,
+        deliveryMethod: orderForm.deliveryMethod.value,
       }
     };
 
@@ -88,6 +70,16 @@ class ContactData extends Component {
             loading: false
           });
         });
+  }
+
+  inputChangedHanlder = (event, formElementId) => {
+    const { orderForm } = this.state;
+
+    orderForm[formElementId].value = event.target.value;
+
+    this.setState({
+      orderForm
+    });
   }
 
   render() {
@@ -110,18 +102,21 @@ class ContactData extends Component {
       contactData = (
         <div className={classes.ContactData}>
           <h4>Enter your contact data</h4>
-          {
-            formElementsArray.map(formElement => (
-              <Input
-                key={formElement.id}
-                inputtype={formElement.config.elementType}
-                elementConfig={formElement.config.elementConfig}
-                // value={inputElement.value}
-                value={formElement.config.value}
-              />
-            ))
-          }
-          <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
+          <form onSubmit={this.orderHandler}>
+            {
+              formElementsArray.map(formElement => (
+                <Input
+                  key={formElement.id}
+                  label={formElement.config.name}
+                  inputtype={formElement.config.elementType}
+                  elementConfig={formElement.config.elementConfig}
+                  value={formElement.config.value}
+                  changed={event => this.inputChangedHanlder(event, formElement.id)}
+                />
+              ))
+            }
+            <Button btnType="Success">ORDER</Button>
+          </form>
         </div>
       );
     }
