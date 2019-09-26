@@ -13,20 +13,22 @@ import classes from './ContactData.css';
 class ContactData extends Component {
   state = {
     orderForm: {
-      name: createFormElementHelper('Name', 'input', 'text', null, 'Your name', ''),
-      email: createFormElementHelper('E-mail', 'input', 'email', null, 'Your email', ''),
-      country: createFormElementHelper('Country', 'input', 'text', null, 'Your country', ''),
-      street: createFormElementHelper('Street', 'input', 'text', null, 'Your street', ''),
-      postal: createFormElementHelper('Postal', 'input', 'text', null, 'Your postal', ''),
+      name: createFormElementHelper('Name', 'input', 'text', null, 'Your name', '', true, 3, 5),
+      email: createFormElementHelper('E-mail', 'input', 'email', null, 'Your email', '', true, 3, 5),
+      country: createFormElementHelper('Country', 'input', 'text', null, 'Your country', '', true, 3, 5),
+      street: createFormElementHelper('Street', 'input', 'text', null, 'Your street', '', true, 3, 5),
+      postal: createFormElementHelper('Postal', 'input', 'text', null, 'Your postal', '', true, 3, 5),
       deliveryMethod: createFormElementHelper(
         'Delivery method',
         'select',
         null,
         [{ value: 'fastest', displayValue: 'Fastest' }, { value: 'cheapest', displayValue: 'Cheapest' }],
         'Choose a delivery method',
-        ''
+        '',
+        true
       )
     },
+    canSubmit: false,
     loading: false
   };
 
@@ -71,19 +73,48 @@ class ContactData extends Component {
         });
   }
 
-  inputChangedHanlder = (event, formElementId) => {
+  // TODO: ask about that
+  inputChangedHandler = (event, formElementId) => {
     const { orderForm } = this.state;
 
     orderForm[formElementId].value = event.target.value;
+    orderForm[formElementId].touched = true;
+    orderForm[formElementId].isValid = this.checkValidity(
+      orderForm[formElementId].value,
+      orderForm[formElementId].validationRules
+    );
 
-    this.setState({
-      orderForm
+    let canSubmit = true;
+    Object.keys(orderForm).forEach((orderFormKey) => {
+      if (!orderForm[orderFormKey].isValid) {
+        canSubmit = false;
+      }
     });
+
+    this.setState({ orderForm, canSubmit });
+  }
+
+  checkValidity = (value, rules) => {
+    let isValid = true;
+
+    if (rules.required) {
+      isValid = value.trim() !== '' && isValid;
+    }
+    
+    if (rules.maxLength) {
+      isValid = value.length <= rules.maxLength && isValid;
+    }
+    
+    if (rules.minLength) {
+      isValid = value.length >= rules.minLength && isValid;
+    }
+
+    return isValid;
   }
 
   render() {
     const {
-      loading, orderForm
+      loading, orderForm, canSubmit
     } = this.state;
 
     let contactData = <Spinner />;
@@ -110,11 +141,13 @@ class ContactData extends Component {
                   inputtype={formElement.config.elementType}
                   elementConfig={formElement.config.elementConfig}
                   value={formElement.config.value}
-                  changed={event => this.inputChangedHanlder(event, formElement.id)}
+                  invalid={!formElement.config.isValid}
+                  touched={formElement.config.touched}
+                  changed={event => this.inputChangedHandler(event, formElement.id)}
                 />
               ))
             }
-            <Button btnType="Success">ORDER</Button>
+            <Button disabled={!canSubmit} btnType="Success">ORDER</Button>
           </form>
         </div>
       );
