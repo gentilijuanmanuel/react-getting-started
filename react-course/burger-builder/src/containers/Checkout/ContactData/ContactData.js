@@ -157,7 +157,7 @@ class ContactData extends Component {
   }
 }
 
-// TODO: fix me
+// TODO: fix me, object is too general
 ContactData.propTypes = {
   history: PropTypes.object.isRequired,
   ingredients: PropTypes.object,
