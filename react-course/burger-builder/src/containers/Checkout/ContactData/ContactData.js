@@ -11,13 +11,14 @@ import createFormElementHelper from '../../../helpers/FormElementBuilder';
 import classes from './ContactData.css';
 
 class ContactData extends Component {
+  // Validation is min length 3 max length 5 for all the fields.
   state = {
     orderForm: {
-      name: createFormElementHelper('Name', 'input', 'text', null, 'Your name', '', true, 3, 5),
-      email: createFormElementHelper('E-mail', 'input', 'email', null, 'Your email', '', true, 3, 5),
-      country: createFormElementHelper('Country', 'input', 'text', null, 'Your country', '', true, 3, 5),
-      street: createFormElementHelper('Street', 'input', 'text', null, 'Your street', '', true, 3, 5),
-      postal: createFormElementHelper('Postal', 'input', 'text', null, 'Your postal', '', true, 3, 5),
+      name: createFormElementHelper('Name', 'input', 'text', null, 'Your name', '', true, 3, 5, 'Please enter a valid name'),
+      email: createFormElementHelper('E-mail', 'input', 'email', null, 'Your email', '', true, 3, 5, 'Please enter a valid email'),
+      country: createFormElementHelper('Country', 'input', 'text', null, 'Your country', '', true, 3, 5, 'Please enter a valid country'),
+      street: createFormElementHelper('Street', 'input', 'text', null, 'Your street', '', true, 3, 5, 'Please enter a valid street'),
+      postal: createFormElementHelper('Postal', 'input', 'text', null, 'Your postal', '', true, 3, 5, 'Please enter a valid postal'),
       deliveryMethod: createFormElementHelper(
         'Delivery method',
         'select',
@@ -143,6 +144,7 @@ class ContactData extends Component {
                   value={formElement.config.value}
                   invalid={!formElement.config.isValid}
                   touched={formElement.config.touched}
+                  validationErrorMessage={formElement.config.validationErrorMessage}
                   changed={event => this.inputChangedHandler(event, formElement.id)}
                 />
               ))

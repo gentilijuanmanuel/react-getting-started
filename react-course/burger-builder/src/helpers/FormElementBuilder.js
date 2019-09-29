@@ -1,4 +1,15 @@
-function createFormElementHelper(name, elementType, type, options, placeholder, value, required, minLength, maxLength) {
+function createFormElementHelper(
+    name,
+    elementType,
+    type,
+    options,
+    placeholder,
+    value,
+    required,
+    minLength,
+    maxLength,
+    validationErrorMessage
+  ) {
   return {
     name,
     elementType,
@@ -14,7 +25,8 @@ function createFormElementHelper(name, elementType, type, options, placeholder, 
       maxLength
     },
     isValid: false,
-    touched: false
+    touched: false,
+    validationErrorMessage
   };
 }
 

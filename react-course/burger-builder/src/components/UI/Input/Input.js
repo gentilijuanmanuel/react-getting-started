@@ -5,7 +5,7 @@ import classes from './Input.css';
 
 const input = (props) => {
   const {
-    label, inputtype, elementConfig, value, changed, invalid, touched
+    label, inputtype, elementConfig, value, changed, invalid, touched, validationErrorMessage
   } = props;
 
   let inputElement = null;
@@ -13,6 +13,11 @@ const input = (props) => {
   const inputElementClasses = [classes.InputElement];
   if (invalid && touched) {
     inputElementClasses.push(classes.InvalidInput);
+  }
+
+  let validationError = null;
+  if (invalid && touched) {
+      validationError = <p className={classes.ValidationError}>{validationErrorMessage}</p>;
   }
 
   switch (inputtype) {
@@ -65,6 +70,7 @@ const input = (props) => {
     <div className={classes.Input}>
       <label className={classes.Label}>{label}</label>
       {inputElement}
+      {validationError}
     </div>
   );
 };
@@ -76,7 +82,8 @@ input.propTypes = {
   value: PropTypes.string.isRequired,
   changed: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
-  touched: PropTypes.bool.isRequired
+  touched: PropTypes.bool.isRequired,
+  validationErrorMessage: PropTypes.string.isRequired
 };
 
 export default input;
