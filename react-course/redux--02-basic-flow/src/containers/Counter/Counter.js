@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
 
+import './Counter.css';
 class Counter extends Component {
     state = {
         counter: 0
@@ -36,10 +37,14 @@ class Counter extends Component {
                 <CounterControl label="Add 8" clicked={this.props.addFiveCounterHandler}  />
                 <CounterControl label="Subtract 10" clicked={this.props.substractFiveCounterHandler}  />
                 <hr />
-                <button onClick={this.props.storeResultHandler}>Store result</button>
-                <ul>
-                  { this.props.results.map(result => <li key={result.id} onClick={this.props.deleteResultHandler}>{result.value}</li>) }
-                </ul>
+                <div>
+                  <button onClick={this.props.storeResultHandler}>Store result</button>
+                </div>
+                <div>
+                  <ul>
+                    { this.props.results.map(result => <li key={result.id} className="resultItem" onClick={() => this.props.deleteResultHandler(result.id)}>{result.value}</li>) }
+                  </ul>
+                </div>
             </div>
         );
     }
@@ -56,10 +61,10 @@ const mapDispatchToProps = dispatch => {
   return {
     incrementCounterHandler: () => dispatch({type: 'INCREMENT'}),
     decrementCounterHandler: () => dispatch({type: 'DECREMENT'}),
-    addFiveCounterHandler: () => dispatch({type: 'ADD', value: 8}),
-    substractFiveCounterHandler: () => dispatch({type: 'SUBSTRACT', value: 10}),
+    addFiveCounterHandler: () => dispatch({type: 'ADD', counter: 8}),
+    substractFiveCounterHandler: () => dispatch({type: 'SUBSTRACT', counter: 10}),
     storeResultHandler: () => dispatch({type: 'STORE_RESULT'}),
-    deleteResultHandler: () => dispatch({type: 'DELETE_RESULT'}),
+    deleteResultHandler: (id) => dispatch({type: 'DELETE_RESULT', resultElementId: id}),
   }
 }
 
