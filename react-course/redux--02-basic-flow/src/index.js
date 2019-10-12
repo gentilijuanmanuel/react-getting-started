@@ -7,7 +7,9 @@ import counterReducer from '../src/store/reducers/counter';
 import resultReducer from '../src/store/reducers/result';
 
 import './index.css';
+
 import App from './App';
+
 import registerServiceWorker from './registerServiceWorker';
 
 const rootReducer = combineReducers({

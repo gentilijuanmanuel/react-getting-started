@@ -36,7 +36,7 @@ const App = () => {
         char={char}
         click={() => deleteCharHandler(index)}
       />
-      ));
+    ));
   }
 
   return (
