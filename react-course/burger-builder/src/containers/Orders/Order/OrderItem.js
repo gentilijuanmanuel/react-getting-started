@@ -13,9 +13,21 @@ const orderItem = (props) => {
   const customerInformationSummary = Object.keys(order.customer)
     .map((customerInfoKey) => {
       if (customerInfoKey === 'address') {
-        return <ul key={customerInfoKey}>{Object.keys(order.customer[customerInfoKey]).map(addressKey => <li key={addressKey}>{order.customer.address[addressKey]}</li>)}</ul>;
+        return (
+          <ul key={customerInfoKey}>
+            {Object.keys(order.customer[customerInfoKey]).map(addressKey => (
+              <li key={addressKey}>
+                {order.customer.address[addressKey]}
+              </li>
+            ))}
+          </ul>
+        );
       }
-      return <li key={customerInfoKey}><span style={{ textTransform: 'capitalize' }}>{customerInfoKey}</span>: {order.customer[customerInfoKey]}</li>;
+      return (
+        <li key={customerInfoKey}>
+          <span style={{ textTransform: 'capitalize' }}>{customerInfoKey}</span>: {order.customer[customerInfoKey]}
+        </li>
+      );
     });
 
   return (

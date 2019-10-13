@@ -166,7 +166,7 @@ ContactData.propTypes = {
   totalPrice: PropTypes.number.isRequired
 };
 
-ContactData.defaulTypes = {
+ContactData.defaultProps = {
   ingredients: null
 };
 

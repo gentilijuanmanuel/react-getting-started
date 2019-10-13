@@ -57,9 +57,10 @@ class BurgerBuilder extends Component {
     });
   }
 
-  calculateInitialPrice = ingredients => Object.keys(ingredients)
-                 .map(ingredientKey => ingredients[ingredientKey] * INGREDIENT_PRICES[ingredientKey])
-                 .reduce((acumulator, element) => acumulator + element, 0)
+  calculateInitialPrice = ingredients =>
+    Object.keys(ingredients)
+          .map(ingredientKey => ingredients[ingredientKey] * INGREDIENT_PRICES[ingredientKey])
+          .reduce((acumulator, element) => acumulator + element, 0)
 
   addIngredientHandler = (type) => {
     const { ingredients, totalPrice } = this.state;

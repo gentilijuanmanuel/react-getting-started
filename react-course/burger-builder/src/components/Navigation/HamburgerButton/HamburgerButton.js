@@ -11,9 +11,9 @@ const hamburgerButton = (props) => {
       onClick={hamburgerButtonClicked}
       role="presentation"
     >
-      <div></div>
-      <div></div>
-      <div></div>
+      <div />
+      <div />
+      <div />
     </div>
   );
 };
