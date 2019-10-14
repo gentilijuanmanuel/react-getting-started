@@ -83,7 +83,11 @@ input.propTypes = {
   changed: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
   touched: PropTypes.bool.isRequired,
-  validationErrorMessage: PropTypes.string.isRequired
+  validationErrorMessage: PropTypes.string
+};
+
+input.defaultProps = {
+  validationErrorMessage: null
 };
 
 export default input;

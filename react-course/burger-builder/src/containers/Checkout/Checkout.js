@@ -3,27 +3,12 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
-  state = {
-    ingredients: null,
-    totalPrice: 0
-  }
-
-  componentDidMount() {
-    const { location } = this.props;
-
-    if (location.state) {
-      this.setState({
-        ingredients: location.state.ingredients,
-        totalPrice: location.state.totalPrice
-      });
-    }
-  }
-
   cancelCheckoutHandler = () => {
     const { history } = this.props;
     history.goBack();
@@ -36,7 +21,7 @@ class Checkout extends Component {
 
   render() {
     const { match } = this.props;
-    const { ingredients, totalPrice } = this.state;
+    const { ingredients } = this.props;
 
     // eslint-disable-next-line prefer-template
     const contactDataPath = match.path + '/contact-data';
@@ -48,7 +33,7 @@ class Checkout extends Component {
           cancelCheckoutClicked={this.cancelCheckoutHandler}
           confirmCheckoutClicked={this.confirmCheckoutHandler}
         />
-        <Route path={contactDataPath} render={props => (<ContactData ingredients={ingredients} totalPrice={totalPrice} {...props} />)} />
+        <Route path={contactDataPath} component={ContactData} />
       </div>
     );
   }
@@ -58,7 +43,12 @@ class Checkout extends Component {
 Checkout.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  ingredients: PropTypes.object.isRequired
 };
 
-export default Checkout;
+const mapStateToProps = state => ({
+  ingredients: state.ingredients
+});
+
+export default connect(mapStateToProps)(Checkout);
