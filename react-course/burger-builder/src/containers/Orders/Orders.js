@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
+
 import classes from './Orders.css';
 import axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
@@ -7,10 +9,10 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import OrderItem from './Order/OrderItem';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
+import * as actionCreators from '../../store/actions/index';
 
 class Orders extends Component {
   state = {
-    orders: null,
     loading: true
   }
 
@@ -35,7 +37,8 @@ class Orders extends Component {
   }
 
   render() {
-    const { orders, loading } = this.state;
+    const { loading } = this.state;
+    const { orders } = this.props;
 
     let ordersList = <Spinner />;
 
@@ -56,4 +59,19 @@ class Orders extends Component {
   }
 }
 
-export default withErrorHandler(Orders, axios);
+Orders.propTypes = {
+  // orders: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  orders: state.orders.ingredients
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchOrders: () =>
+    dispatch(actionCreators.fetchOrders()),
+  removeIngredientHandler: order =>
+    dispatch(actionCreators.saveOrder(order))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios));

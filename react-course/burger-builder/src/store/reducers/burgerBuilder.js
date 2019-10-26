@@ -1,12 +1,8 @@
-import * as actionTypes from './actions';
+import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  ingredients: {
-    salad: 0,
-    cheese: 0,
-    meat: 0,
-    bacon: 0
-  },
+  ingredients: null,
+  error: false,
   totalPrice: 0
 };
 
@@ -17,15 +13,12 @@ const INGREDIENT_PRICES = {
   meat: 10
 };
 
-const reducer = (state = initialState, action) => {
-  // const updatedIngredients = null;
-  // const oldCount = 0;
-  // const updatedCount = 0;
-  // const priceAddition = 0;
-  // const priceDecrement = 0;
-  // const oldPrice = 0;
-  // const newPrice = 0;
+const calculateInitialPrice = ingredients =>
+    Object.keys(ingredients)
+          .map(ingredientKey => ingredients[ingredientKey] * INGREDIENT_PRICES[ingredientKey])
+          .reduce((acumulator, element) => acumulator + element, 0);
 
+const reducer = (state = initialState, action) => {
   // In order to understand how to update nested objects (like in this case),
   // read this article: https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
   switch (action.type) {
@@ -46,6 +39,18 @@ const reducer = (state = initialState, action) => {
           [action.ingredientType]: state.ingredients[action.ingredientType] - 1
         },
         totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientType]
+      };
+    case actionTypes.SET_INGREDIENTS:
+      return {
+        ...state,
+        ingredients: action.ingredients,
+        totalPrice: calculateInitialPrice(action.ingredients),
+        error: false
+      };
+    case actionTypes.FETCH_INGREDIENTS_FAILED:
+      return {
+        ...state,
+        error: true
       };
     default:
       return state;
