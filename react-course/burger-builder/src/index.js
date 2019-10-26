@@ -11,7 +11,10 @@ import ingredientsReducer from './store/reducer';
 
 import * as serviceWorker from './serviceWorker';
 
-const store = createStore(ingredientsReducer);
+const store = createStore(
+  ingredientsReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 const app = (
   <Provider store={store}>

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
+import classes from './Orders.css';
 import axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 import OrderItem from './Order/OrderItem';
 import Spinner from '../../components/UI/Spinner/Spinner';
+
 
 class Orders extends Component {
   state = {
@@ -37,9 +39,13 @@ class Orders extends Component {
 
     let ordersList = <Spinner />;
 
-    if (!loading && orders != null) {
-      ordersList = Object.keys(orders)
-        .map(orderKey => <OrderItem key={orderKey} order={orders[orderKey]} />);
+    if (!loading) {
+      if (orders) {
+        ordersList = Object.keys(orders)
+          .map(orderKey => <OrderItem key={orderKey} order={orders[orderKey]} />);
+      } else {
+        ordersList = <p className={classes.centeredText}>There are no orders to fetch.</p>;
+      }
     }
 
     return (
