@@ -8,6 +8,7 @@ export const saveResult = (result) => {
 }
 
 export const storeResult = (result) => {
+  // Async code goes on Action Creators
   return dispatch => {
     setTimeout(() => {
       dispatch(saveResult(result));
