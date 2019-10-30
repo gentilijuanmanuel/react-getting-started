@@ -19,8 +19,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 class BurgerBuilder extends Component {
   state = {
-    purchasing: false,
-    loading: false
+    purchasing: false
   };
 
   componentDidMount() {
@@ -51,14 +50,15 @@ class BurgerBuilder extends Component {
   }
 
   purchaseContinueHandler = () => {
-    const { history } = this.props;
+    const { history, initPurchaseHandler } = this.props;
+
+    initPurchaseHandler();
+
     history.push({ pathname: '/checkout' });
   }
 
   render() {
-    const {
-      purchasing, loading
-    } = this.state;
+    const { purchasing } = this.state;
 
     const {
       ingredients, totalPrice, addIngredientHandler, removeIngredientHandler, error
@@ -99,7 +99,6 @@ class BurgerBuilder extends Component {
 
       orderSummary = (
         <OrderSummary
-          loading={loading}
           totalPrice={totalPrice}
           ingredients={ingredients}
           cancelOrder={this.purchaseCancelHandler}
@@ -126,7 +125,8 @@ BurgerBuilder.propTypes = {
   addIngredientHandler: PropTypes.func.isRequired,
   removeIngredientHandler: PropTypes.func.isRequired,
   fetchIngredientsHandler: PropTypes.func.isRequired,
-  error: PropTypes.bool.isRequired
+  error: PropTypes.bool.isRequired,
+  initPurchaseHandler: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -141,7 +141,9 @@ const mapDispatchToProps = dispatch => ({
   removeIngredientHandler: ingredientType =>
     dispatch(actionCreators.removeIngredient(ingredientType)),
   fetchIngredientsHandler: () =>
-    dispatch(actionCreators.initIngredients())
+    dispatch(actionCreators.initIngredients()),
+  initPurchaseHandler: () =>
+    dispatch(actionCreators.purchaseInit())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));

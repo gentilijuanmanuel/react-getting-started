@@ -6,6 +6,9 @@ import axios from '../../../axios-orders';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+
+import * as actionCreators from '../../../store/actions/index';
 
 import createFormElementHelper from '../../../helpers/FormElementBuilder';
 
@@ -30,8 +33,7 @@ class ContactData extends Component {
         true
       )
     },
-    canSubmit: false,
-    loading: false
+    canSubmit: false
   };
 
   orderHandler = (event) => {
@@ -40,11 +42,9 @@ class ContactData extends Component {
     event.preventDefault();
 
     const { orderForm } = this.state;
-    const { ingredients, totalPrice, history } = this.props;
-
-    this.setState({
-      loading: true
-    });
+    const {
+     ingredients, totalPrice, saveOrderHandler
+    } = this.props;
 
     const customer = {};
 
@@ -58,21 +58,7 @@ class ContactData extends Component {
       customer
     };
 
-    axios.post('/orders.json', order)
-         .then((response) => {
-            console.log(response);
-            this.setState({
-              loading: false
-            });
-
-            history.replace({ pathname: '/' });
-        })
-        .catch((error) => {
-          console.error(error);
-          this.setState({
-            loading: false
-          });
-        });
+    saveOrderHandler(order);
   }
 
   // TODO: ask about that
@@ -115,9 +101,8 @@ class ContactData extends Component {
   }
 
   render() {
-    const {
-      loading, orderForm, canSubmit
-    } = this.state;
+    const { orderForm, canSubmit } = this.state;
+    const { loading } = this.props;
 
     let contactData = <Spinner />;
 
@@ -164,7 +149,9 @@ class ContactData extends Component {
 ContactData.propTypes = {
   history: PropTypes.object.isRequired,
   ingredients: PropTypes.object,
-  totalPrice: PropTypes.number.isRequired
+  totalPrice: PropTypes.number.isRequired,
+  saveOrderHandler: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 ContactData.defaultProps = {
@@ -172,8 +159,14 @@ ContactData.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  ingredients: state.ingredients,
-  totalPrice: state.totalPrice
+  ingredients: state.burgerBuilder.ingredients,
+  totalPrice: state.burgerBuilder.totalPrice,
+  loading: state.orders.loading
 });
 
-export default connect(mapStateToProps, null)(ContactData);
+const mapDispatchToProps = dispatch => ({
+  saveOrderHandler: order =>
+    dispatch(actionCreators.purchaseOrder(order))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));

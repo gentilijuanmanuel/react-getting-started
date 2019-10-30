@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import PropTypes from 'prop-types';
+
 import { connect } from 'react-redux';
 
 import classes from './Orders.css';
@@ -12,44 +14,25 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import * as actionCreators from '../../store/actions/index';
 
 class Orders extends Component {
-  state = {
-    loading: true
-  }
-
   componentDidMount() {
-    this.fetchOrders();
-  }
+    const { fetchOrdersHandler } = this.props;
 
-  fetchOrders = () => {
-    
-    axios.get('/orders.json')
-         .then((response) => {
-           this.setState({
-             orders: response.data,
-             loading: false
-           });
-         })
-         .catch((error) => {
-           console.error(error);
-           this.setState({
-             loading: false
-           });
-         });
+    fetchOrdersHandler();
   }
 
   render() {
-    const { loading } = this.state;
-    const { orders } = this.props;
+    const { orders, error, loading } = this.props;
 
     let ordersList = <Spinner />;
-
     if (!loading) {
-      if (orders) {
-        ordersList = Object.keys(orders)
-          .map(orderKey => <OrderItem key={orderKey} order={orders[orderKey]} />);
-      } else {
-        ordersList = <p className={classes.centeredText}>There are no orders to fetch.</p>;
-      }
+      if (error) {
+        ordersList = <p className={classes.centeredText}>Orders cannot be loaded :(</p>;
+      } else if (orders) {
+          ordersList = Object.keys(orders)
+                             .map(orderKey => <OrderItem key={orderKey} order={orders[orderKey]} />); 
+        } else {
+          ordersList = <p className={classes.centeredText}>There are no orders to fetch.</p>;
+        }
     }
 
     return (
@@ -61,18 +44,21 @@ class Orders extends Component {
 }
 
 Orders.propTypes = {
-  // orders: PropTypes.object.isRequired
+  orders: PropTypes.array.isRequired,
+  fetchOrdersHandler: PropTypes.func.isRequired,
+  error: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  orders: state.orders.ingredients
+  orders: state.orders.orders,
+  error: state.orders.error,
+  loading: state.orders.loading
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchOrders: () =>
-    dispatch(actionCreators.fetchOrders()),
-  removeIngredientHandler: order =>
-    dispatch(actionCreators.saveOrder(order))
+  fetchOrdersHandler: () =>
+    dispatch(actionCreators.fetchOrders())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios));
