@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { updateObject } from '../utility';
 
 const initialState = {
   orders: [],
@@ -9,51 +10,48 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   let newOrder;
+  let updatedState;
+  let updatedOrders;
 
   switch (action.type) {
     case actionTypes.SET_ORDERS:
-      return {
-        ...state,
+      updatedState = {
         orders: action.orders,
         error: false,
         loading: false
       };
+      return updateObject(state, updatedState);
     case actionTypes.FETCH_PURCHASE_ORDERS_START:
-      return {
-        ...state,
-        loading: true
-      };
+      updatedState = { loading: true };
+      return updateObject(state, updatedState);
     case actionTypes.FETCH_ORDERS_FAILED:
-      return {
-        ...state,
+      updatedState = {
         error: true,
         loading: false
       };
+      return updateObject(state, updatedState);
     case actionTypes.PURCHASE_ORDER_SUCCESS:
-
       newOrder = {
         ...action.orderData,
         id: action.orderId
       };
-      
-      // Note: this has no sense, since we are fetching the orders from the server when we go to My orders tab
-      return {
-        ...state,
+      updatedOrders = state.orders.concat(newOrder);
+      updatedState = {
         loading: false,
         purchased: true,
-        orders: state.orders.concat(newOrder)
+        orders: updatedOrders
       };
+      // Note: this has no sense, since we are fetching the orders from the server when we go to My orders tab
+      return updateObject(state, updatedState);
     case actionTypes.PURCHASE_ORDER_FAIL:
-      return {
-        ...state,
+      updatedState = {
         loading: false,
         error: true
       };
+      return updateObject(state, updatedState);
     case actionTypes.PURCHASE_INIT:
-      return {
-        ...state,
-        purchased: false
-      };
+      updatedState = { purchased: false };
+      return updateObject(state, updatedState);
     default:
       return state;
   }

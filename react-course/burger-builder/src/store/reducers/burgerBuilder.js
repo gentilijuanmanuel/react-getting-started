@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { updateObject } from '../utility';
 
 const initialState = {
   ingredients: null,
@@ -19,30 +20,31 @@ const calculateInitialPrice = ingredients =>
           .reduce((acumulator, element) => acumulator + element, 0);
 
 const reducer = (state = initialState, action) => {
+  let updatedIngredient;
+  let updatedIngredients;
+  let updatedState;
+
   // In order to understand how to update nested objects (like in this case),
   // read this article: https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
   switch (action.type) {
     case actionTypes.ADD_INGREDIENT:
-      return {
-        ...state,
-        ingredients: {
-          ...state.ingredients,
-          [action.ingredientType]: state.ingredients[action.ingredientType] + 1
-        },
+      updatedIngredient = { [action.ingredientType]: state.ingredients[action.ingredientType] + 1 };
+      updatedIngredients = updateObject(state.ingredients, updatedIngredient);
+      updatedState = {
+        ingredients: updatedIngredients,
         totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientType]
       };
+      return updateObject(state, updatedState);
     case actionTypes.REMOVE_INGREDIENT:
-      return {
-        ...state,
-        ingredients: {
-          ...state.ingredients,
-          [action.ingredientType]: state.ingredients[action.ingredientType] - 1
-        },
+      updatedIngredient = { [action.ingredientType]: state.ingredients[action.ingredientType] - 1 };
+      updatedIngredients = updateObject(state.ingredients, updatedIngredient);
+      updatedState = {
+        ingredients: updatedIngredients,
         totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientType]
       };
+      return updateObject(state, updatedState);
     case actionTypes.SET_INGREDIENTS:
-      return {
-        ...state,
+      updatedState = {
         ingredients: {
           salad: action.ingredients.salad,
           bacon: action.ingredients.bacon,
@@ -52,11 +54,10 @@ const reducer = (state = initialState, action) => {
         totalPrice: calculateInitialPrice(action.ingredients),
         error: false
       };
+      return updateObject(state, updatedState);
     case actionTypes.FETCH_INGREDIENTS_FAILED:
-      return {
-        ...state,
-        error: true
-      };
+      updatedState = { error: true };
+      return updateObject(state, updatedState);
     default:
       return state;
   }
