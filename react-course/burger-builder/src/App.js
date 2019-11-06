@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Layout from './hoc/Layout/Layout';
+import Auth from './containers/Auth/Auth';
 import Orders from './containers/Orders/Orders';
 import Checkout from './containers/Checkout/Checkout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
@@ -13,6 +14,7 @@ function App() {
       {/* <Route path="/" exact component={BurgerBuilder} />
       <Route path="/checkout" component={Checkout} /> */}
       <Switch>
+        <Route path="/Auth" component={Auth} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/orders" component={Orders} />
         <Route path="/" component={BurgerBuilder} />
