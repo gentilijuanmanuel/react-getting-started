@@ -8,13 +8,9 @@ const initialState = {
 
 const startAuth = (state, action) => state;
 
-const handleAuthSuccess = (state, action) => {
+const handleAuthSuccess = (state, action) => state;
 
-};
-
-const handleAuthFail = (state, action) => {
-
-};
+const handleAuthFail = (state, action) => state;
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {

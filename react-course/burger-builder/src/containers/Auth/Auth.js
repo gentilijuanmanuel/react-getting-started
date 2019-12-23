@@ -15,7 +15,7 @@ class Auth extends Component {
   state = {
     loginForm: {
       email: createFormElementHelper('E-mail', 'input', 'email', null, 'Your email', '', true, 6, 20, 'Please enter a valid email'),
-      password: createFormElementHelper('Password', 'input', 'password', null, 'Your password', '', true, 3, 5, 'Please enter a valid password'),
+      password: createFormElementHelper('Password', 'input', 'password', null, 'Your password', '', true, 6, 20, 'Please enter a valid password'),
     }
   }
 
@@ -92,7 +92,7 @@ class Auth extends Component {
       <div className={classes.Auth}>
         <form onSubmit={this.submitFormHandler}>
           {form}
-          <Button btnType="Success">LOGIN</Button>
+          <Button btnType="Success">SUBMIT</Button>
         </form>
       </div> 
     );
