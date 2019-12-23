@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
@@ -7,28 +9,30 @@ import createFormElementHelper from '../../helpers/FormElementBuilder';
 
 import classes from './Auth.css';
 
+import * as actionCreators from '../../store/actions/index';
+
 class Auth extends Component {
   state = {
-    signUpForm: {
-      email: createFormElementHelper('E-mail', 'input', 'email', null, 'Your email', '', true, 3, 5, 'Please enter a valid email'),
+    loginForm: {
+      email: createFormElementHelper('E-mail', 'input', 'email', null, 'Your email', '', true, 6, 20, 'Please enter a valid email'),
       password: createFormElementHelper('Password', 'input', 'password', null, 'Your password', '', true, 3, 5, 'Please enter a valid password'),
     }
   }
 
   inputChangedHandler = (event, formElementId) => {
-    const { signUpForm } = this.state;
+    const { loginForm } = this.state;
 
     const updatedForm = {
-      ...signUpForm,
+      ...loginForm,
       [formElementId]: {
-        ...signUpForm[formElementId],
+        ...loginForm[formElementId],
         value: event.target.value,
-        isValid: this.checkValidity(event.target.value, signUpForm[formElementId].validationRules),
+        isValid: this.checkValidity(event.target.value, loginForm[formElementId].validationRules),
         touched: true
       }
     };
 
-    this.setState({ signUpForm: updatedForm });
+    this.setState({ loginForm: updatedForm });
   }
 
   checkValidity = (value, rules) => {
@@ -49,15 +53,24 @@ class Auth extends Component {
     return isValid;
   }
 
+  submitFormHandler = (event) => {
+    const { loginHandler } = this.props;
+    const { loginForm } = this.state;
+
+    event.preventDefault();
+
+    loginHandler(loginForm.email.value, loginForm.password.value);
+  };
+
   render() {
-    const { signUpForm } = this.state;
+    const { loginForm } = this.state;
 
     const formElementsArray = [];
 
-    Object.keys(signUpForm).forEach((formElementKey) => {
+    Object.keys(loginForm).forEach((formElementKey) => {
       formElementsArray.push({
         id: formElementKey,
-        config: signUpForm[formElementKey]
+        config: loginForm[formElementKey]
       });
     });
 
@@ -77,13 +90,25 @@ class Auth extends Component {
 
     return (
       <div className={classes.Auth}>
-        <form>
+        <form onSubmit={this.submitFormHandler}>
           {form}
-          <Button btnType="Success">SUBMIT</Button>
+          <Button btnType="Success">LOGIN</Button>
         </form>
       </div> 
     );
   }
 }
 
-export default Auth;
+Auth.propTypes = {
+  loginHandler: PropTypes.func.isRequired
+};
+
+// const mapStateToProps = state => ({
+//   authData: state.auth.authData
+// });
+
+const mapDispatchToProps = dispatch => ({
+  loginHandler: (email, password) => dispatch(actionCreators.auth(email, password))
+});
+
+export default connect(null, mapDispatchToProps)(Auth);

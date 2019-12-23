@@ -12,12 +12,14 @@ import './index.css';
 import App from './App';
 import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import ordersReducer from './store/reducers/order';
+import authReducer from './store/reducers/auth';
 
 import * as serviceWorker from './serviceWorker';
 
 const rootReducer = combineReducers({
   burgerBuilder: burgerBuilderReducer,
-  orders: ordersReducer
+  orders: ordersReducer,
+  auth: authReducer
 });
 
 const logger = store => next => (action) => {

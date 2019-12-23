@@ -10,3 +10,7 @@ export const SET_ORDERS = 'SET_ORDERS';
 export const PURCHASE_ORDER_SUCCESS = 'PURCHASE_ORDER_SUCCESS';
 export const PURCHASE_ORDER_FAIL = 'PURCHASE_ORDER_FAIL';
 export const PURCHASE_INIT = 'PURCHASE_INIT';
+
+export const AUTH_START = 'AUTH_START';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAIL = 'AUTH_FAIL';
