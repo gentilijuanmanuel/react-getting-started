@@ -4,6 +4,7 @@ import { PropTypes } from 'prop-types';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 import createFormElementHelper from '../../helpers/FormElementBuilder';
 
@@ -16,7 +17,8 @@ class Auth extends Component {
     loginForm: {
       email: createFormElementHelper('E-mail', 'input', 'email', null, 'Your email', '', true, 6, 20, 'Please enter a valid email'),
       password: createFormElementHelper('Password', 'input', 'password', null, 'Your password', '', true, 6, 20, 'Please enter a valid password'),
-    }
+    },
+    isSignUp: false
   }
 
   inputChangedHandler = (event, formElementId) => {
@@ -55,38 +57,55 @@ class Auth extends Component {
 
   submitFormHandler = (event) => {
     const { loginHandler } = this.props;
-    const { loginForm } = this.state;
+    const { loginForm, isSignUp } = this.state;
 
     event.preventDefault();
 
-    loginHandler(loginForm.email.value, loginForm.password.value);
+    loginHandler(loginForm.email.value, loginForm.password.value, isSignUp);
   };
 
+  switchAuthModeHandler = () => {
+    this.setState(prevState => ({ isSignUp: !prevState.isSignUp }));
+  }
+
   render() {
-    const { loginForm } = this.state;
+    const { loginForm, isSignUp } = this.state;
+    const { loading, error } = this.props;
 
-    const formElementsArray = [];
+    let form = <Spinner />;
 
-    Object.keys(loginForm).forEach((formElementKey) => {
-      formElementsArray.push({
-        id: formElementKey,
-        config: loginForm[formElementKey]
+    if (!loading) {
+      const formElementsArray = [];
+
+      Object.keys(loginForm).forEach((formElementKey) => {
+        formElementsArray.push({
+          id: formElementKey,
+          config: loginForm[formElementKey]
+        });
       });
-    });
 
-    const form = formElementsArray.map(formElement => (
-      <Input
-        key={formElement.id}
-        label={formElement.config.name}
-        inputtype={formElement.config.elementType}
-        elementConfig={formElement.config.elementConfig}
-        value={formElement.config.value}
-        invalid={!formElement.config.isValid}
-        touched={formElement.config.touched}
-        validationErrorMessage={formElement.config.validationErrorMessage}
-        changed={event => this.inputChangedHandler(event, formElement.id)}
-      />
+      form = formElementsArray.map(formElement => (
+        <Input
+          key={formElement.id}
+          label={formElement.config.name}
+          inputtype={formElement.config.elementType}
+          elementConfig={formElement.config.elementConfig}
+          value={formElement.config.value}
+          invalid={!formElement.config.isValid}
+          touched={formElement.config.touched}
+          validationErrorMessage={formElement.config.validationErrorMessage}
+          changed={event => this.inputChangedHandler(event, formElement.id)}
+        />
       ));
+    }
+
+    let errorMessage = null;
+
+    if (error) {
+      errorMessage = (
+        <p>{error.message}</p>
+      );
+    }
 
     return (
       <div className={classes.Auth}>
@@ -94,21 +113,27 @@ class Auth extends Component {
           {form}
           <Button btnType="Success">SUBMIT</Button>
         </form>
+        <Button btnType="Danger" clicked={this.switchAuthModeHandler}>CLICK TO {isSignUp ? ' SIGN IN' : ' SIGN UP'}</Button>
+        {errorMessage}
       </div> 
     );
   }
 }
 
 Auth.propTypes = {
-  loginHandler: PropTypes.func.isRequired
+  loginHandler: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.object.isRequired
 };
 
-// const mapStateToProps = state => ({
-//   authData: state.auth.authData
-// });
+ const mapStateToProps = state => ({
+   loading: state.auth.loading,
+   error: state.auth.error
+ });
 
 const mapDispatchToProps = dispatch => ({
-  loginHandler: (email, password) => dispatch(actionCreators.auth(email, password))
+  loginHandler: (email, password, isSignUp) =>
+    dispatch(actionCreators.auth(email, password, isSignUp))
 });
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
